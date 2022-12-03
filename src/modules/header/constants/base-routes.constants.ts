@@ -2,7 +2,7 @@ import BaseRoutes from "../types/base-routes";
 
 export const CURRENCY_CONVERTER: BaseRoutes = {
     path: '/',
-    display: 'Currency converter'
+    display: 'Currencies converter'
 };
 
 export const CURRENCY_LIST: BaseRoutes = {
