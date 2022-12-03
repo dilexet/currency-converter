@@ -48,7 +48,7 @@ const CurrencyListContainer = () => {
             fetchData(baseCurrency).catch(console.error)
             setIsLoading(false)
         }
-    }, [dispatch, isLoading, baseCurrency, fetchData])
+    }, [baseCurrency, fetchData, isLoading])
 
     if (!isLoading && currencies_state?.loading === false) {
         return (
