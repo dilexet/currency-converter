@@ -14,11 +14,11 @@ import {
 } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import {CurrencyListComponentProps} from "../types/currency-list-component-props";
+import {ICurrencyListComponentProps} from "../types/currency-list-component-props";
 
 import "../css/table.css";
 
-const CurrencyList: React.FC<CurrencyListComponentProps> = ({
+const CurrencyList: React.FC<ICurrencyListComponentProps> = ({
                                                                 currencies,
                                                                 baseCurrency,
                                                                 changeBaseCurrency,

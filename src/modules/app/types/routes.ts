@@ -1,6 +1,6 @@
-interface Routes {
+interface IRoutes {
     path: string,
     element: JSX.Element,
 }
 
-export default Routes;
+export default IRoutes;

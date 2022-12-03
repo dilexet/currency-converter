@@ -1,3 +1,3 @@
-export interface HeaderComponentProps {
+export interface IHeaderComponentProps {
     currentPath: string
 }
