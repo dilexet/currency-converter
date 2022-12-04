@@ -8,6 +8,7 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import {ICurrencyConverterComponentProps} from "../types/currency-converter-component-props";
 import CurrencyInputContainer from "../containers/currency-input-container";
 import CurrencySelectFromContainer from "../containers/currency-select-from-container";
+import CurrencySelectToContainer from "../containers/currency-select-to-container";
 import "../css/style.css";
 import CurrencyConverterResultBox from "./currency-converter-result-box";
 
@@ -48,7 +49,8 @@ const CurrencyConverter: React.FC<ICurrencyConverterComponentProps> = ({
                     </Box>
                 </Grid>
                 <Grid item>
-
+                    <CurrencySelectToContainer currencySelect={currencySelect}
+                                               changeAndSaveBaseCurrency={changeAndSaveBaseCurrency}/>
                 </Grid>
             </Grid>
             <CurrencyConverterResultBox amount={amount} currencySelect={currencySelect}
