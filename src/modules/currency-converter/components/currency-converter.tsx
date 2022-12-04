@@ -2,27 +2,23 @@ import React from 'react';
 import {
     Box,
     Container,
-    FormControl, Grid, IconButton,
-    InputAdornment,
-    InputLabel, MenuItem,
-    OutlinedInput, Select
+    Grid, IconButton
 } from "@mui/material";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import CircularProgress from '@mui/material/CircularProgress';
 import {ICurrencyConverterComponentProps} from "../types/currency-converter-component-props";
+import CurrencyInputContainer from "../containers/currency-input-container";
+import CurrencySelectFromContainer from "../containers/currency-select-from-container";
 import "../css/style.css";
-
-export const INITIAL_AMOUNT_VALUE = 1;
+import CurrencyConverterResultBox from "./currency-converter-result-box";
 
 const CurrencyConverter: React.FC<ICurrencyConverterComponentProps> = ({
                                                                            converter_state,
                                                                            currencySelect,
                                                                            amount,
-                                                                           changeCurrencySelectFrom,
-                                                                           changeCurrencySelectTo,
-                                                                           handleAmountChange,
-                                                                           handleInputBlur,
-                                                                           handleSwapCurrencies
+                                                                           setAmount,
+                                                                           setShouldSendRequest,
+                                                                           handleSwapCurrencies,
+                                                                           changeAndSaveBaseCurrency
                                                                        }) => {
     return (
         <Container component="main" sx={{mt: 2, mb: 2}} maxWidth="lg">
@@ -33,59 +29,16 @@ const CurrencyConverter: React.FC<ICurrencyConverterComponentProps> = ({
                   justifyContent="center"
                   alignItems="left">
                 <Grid item>
-                    <FormControl className='form-control'>
-                        <InputLabel htmlFor="amount-input" className="custom-input-label">
-                            Amount
-                        </InputLabel>
-                        <OutlinedInput
-                            id="amount-input"
-                            className="amount-input"
-                            type="number"
-                            value={amount}
-                            onChange={handleAmountChange}
-                            onBlur={handleInputBlur}
-                            startAdornment=
-                                {
-                                    <InputAdornment position="start">
-                                        {currencySelect?.currency_from}
-                                    </InputAdornment>
-                                }
-                            endAdornment=
-                                {
-                                    <InputAdornment position="end">
-                                        {
-                                            converter_state?.loadingConversation ?
-                                                <CircularProgress size={25}/> :
-                                                <></>
-                                        }
-                                    </InputAdornment>
-                                }
-                            label="Amount"
-                        />
-                    </FormControl>
+                    <CurrencyInputContainer amount={amount}
+                                            currencySelect={currencySelect}
+                                            setAmount={setAmount}
+                                            setShouldSendRequest={setShouldSendRequest}
+                    />
                 </Grid>
                 <Grid item>
-                    <FormControl className='form-control'>
-                        <InputLabel id="select-currency-from" className="custom-input-label">
-                            From
-                        </InputLabel>
-                        <Select
-                            labelId="select-currency-from"
-                            value={currencySelect.currency_from}
-                            label="From"
-                            className="currency-select"
-                            onChange={(event) =>
-                                changeCurrencySelectFrom(event.target?.value)}
-                        >
-                            {
-                                converter_state?.currencies?.map((currency, index) => (
-                                    <MenuItem value={currency.code} key={index}>
-                                        {`${currency.code} - ${currency.name}`}
-                                    </MenuItem>
-                                ))
-                            }
-                        </Select>
-                    </FormControl>
+                    <CurrencySelectFromContainer currencySelect={currencySelect}
+                                                 changeAndSaveBaseCurrency={changeAndSaveBaseCurrency}
+                    />
                 </Grid>
                 <Grid item>
                     <Box className="swapper-icon-box">
@@ -95,29 +48,11 @@ const CurrencyConverter: React.FC<ICurrencyConverterComponentProps> = ({
                     </Box>
                 </Grid>
                 <Grid item>
-                    <FormControl className='form-control'>
-                        <InputLabel id="select-currency-to" className="custom-input-label">
-                            To
-                        </InputLabel>
-                        <Select
-                            labelId="select-currency-to"
-                            value={currencySelect.currency_to}
-                            label="To"
-                            className="currency-select"
-                            onChange={(event) =>
-                                changeCurrencySelectTo(event.target?.value)}
-                        >
-                            {
-                                converter_state?.currencies?.map((currency, index) => (
-                                    <MenuItem value={currency.code} key={index}>
-                                        {`${currency.code} - ${currency.name}`}
-                                    </MenuItem>
-                                ))
-                            }
-                        </Select>
-                    </FormControl>
+
                 </Grid>
             </Grid>
+            <CurrencyConverterResultBox amount={amount} currencySelect={currencySelect}
+                                        converter_state={converter_state}/>
         </Container>
     )
 }

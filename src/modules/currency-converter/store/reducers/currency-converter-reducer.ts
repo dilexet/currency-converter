@@ -5,8 +5,12 @@ const initialState: ICurrencyConverterState = {
     loadingCurrencies: true,
     loadingConversation: false,
     success: true,
-    conversationResult: 0,
+    conversationResult: {
+        wholePart: 0,
+        remainder: ""
+    },
     conversationRates: 0,
+    amount: 0,
     currencies: []
 }
 
@@ -37,12 +41,14 @@ const currencyConverterSlice = createSlice({
             state.success = true;
             state.conversationResult = action.payload.conversationResult;
             state.conversationRates = action.payload.conversationRates;
+            state.amount = action.payload.amount;
         },
         get_conversation_result_error(state) {
             state.loadingConversation = false;
             state.success = false;
-            state.conversationResult = 0;
+            state.conversationResult = {wholePart: 0, remainder: ""};
             state.conversationRates = 0;
+            state.amount = 0;
         },
     }
 })

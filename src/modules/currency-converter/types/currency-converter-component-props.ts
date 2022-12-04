@@ -1,6 +1,6 @@
 import React from "react";
-import {ICurrencySelect} from "../containers/currency-converter-container";
 import ICurrencyConverterState from "./currency-converter-state";
+import {ICurrencySelect} from "./currency-converter-select";
 
 export interface ICurrenciesObject {
     code: string,
@@ -11,9 +11,8 @@ export interface ICurrencyConverterComponentProps {
     converter_state: ICurrencyConverterState,
     currencySelect: ICurrencySelect,
     amount: string,
-    changeCurrencySelectFrom: (currencySelectFrom: string) => void;
-    changeCurrencySelectTo: (currencySelectTo: string) => void;
-    handleAmountChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
-    handleInputBlur: () => void;
+    setAmount: React.Dispatch<React.SetStateAction<string>>,
+    setShouldSendRequest: React.Dispatch<React.SetStateAction<boolean>>,
     handleSwapCurrencies: () => void;
+    changeAndSaveBaseCurrency: (newBaseCurrency: ICurrencySelect) => void;
 }

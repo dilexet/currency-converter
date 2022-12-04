@@ -4,8 +4,12 @@ interface ICurrencyConverterState {
     loadingCurrencies: boolean,
     loadingConversation: boolean,
     success: boolean,
-    conversationResult: number,
+    conversationResult: {
+        wholePart: number;
+        remainder: string
+    },
     conversationRates: number,
+    amount: number,
     currencies: ICurrenciesObject[],
 }
 

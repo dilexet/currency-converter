@@ -1,113 +1,78 @@
 import React from 'react';
-import {useAppDispatch, useAppSelector} from "../../shared/store/hooks/hooks";
-import CurrencyConverter, {INITIAL_AMOUNT_VALUE} from "../components/currency-converter";
-import {getCurrencies} from "../store/action-creator/currency-conversation-actions";
 import Loading from "../../loading/components/loading";
-import {BASE_CURRENCIES, BASE_CURRENCY_KEY} from "../../shared/constants/storage-currency.constants";
+import {useAppDispatch, useAppSelector} from "../../shared/store/hooks/hooks";
 import {getLocation} from "../../location/services/get-currency-by-location";
-
-export interface ICurrencySelect {
-    currency_from: string,
-    currency_to: string
-}
-
-const InitialCurrencySelectState: ICurrencySelect = {
-    currency_from: "",
-    currency_to: ""
-}
+import {BASE_CURRENCIES, BASE_CURRENCY_CONVERT_KEY} from "../../shared/constants/storage-currency.constants";
+import {currencyConversation, getCurrencies} from "../store/action-creator/currency-conversation-actions";
+import {INITIAL_AMOUNT_VALUE, InitialCurrencySelectState} from "../constants/initial-states";
+import CurrencyConverter from "../components/currency-converter";
+import {ICurrencySelect} from "../types/currency-converter-select";
+import {formatCurrency} from "../utils/format-currency";
 
 const CurrencyConverterContainer = () => {
     const dispatch = useAppDispatch();
     const converter_state = useAppSelector(x => x.converter);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
+    const [shouldSendRequest, setShouldSendRequest] = React.useState<boolean>(true);
     const [currencySelect, setCurrencySelect] = React.useState<ICurrencySelect>(InitialCurrencySelectState);
-    const [amount, setAmount] = React.useState(INITIAL_AMOUNT_VALUE.toString());
-
-    const handleAmountChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        const newAmount = e.target.value.replace(/,/g, '.');
-        setAmount(newAmount);
-        sendRequest(formatCurrency(newAmount));
-    }
-
-    const handleInputBlur = () => {
-        const formattedCurrency = formatCurrency(amount);
-        setAmount(formattedCurrency.toString())
-        sendRequest(formattedCurrency);
-    }
-
-    const formatCurrency = (currencyAmount: any) => {
-        const validAmount = parseFloat(parseFloat(currencyAmount).toFixed(2));
-        if (validAmount && !isNaN(validAmount)) {
-            return validAmount;
-        } else {
-            return INITIAL_AMOUNT_VALUE;
-        }
-    }
-
-    const sendRequest = (currencyAmount: number) => {
-        console.log(currencyAmount);
-    }
-
-    const changeCurrencySelectFrom = (currencySelectFrom: string) => {
-        if (currencySelectFrom === currencySelect.currency_to) {
-            setCurrencySelect(currencySelect =>
-                ({
-                    currency_from: currencySelectFrom,
-                    currency_to: currencySelect.currency_from
-                }));
-        } else {
-            setCurrencySelect(currencySelect =>
-                ({...currencySelect, currency_from: currencySelectFrom}))
-        }
-    }
-
-    const changeCurrencySelectTo = (currencySelectTo: string) => {
-        if (currencySelectTo === currencySelect.currency_from) {
-            setCurrencySelect(currencySelect =>
-                ({
-                    currency_from: currencySelect.currency_to,
-                    currency_to: currencySelectTo
-                }));
-        } else {
-            setCurrencySelect(currencySelect =>
-                ({
-                    ...currencySelect,
-                    currency_to: currencySelectTo
-                }))
-        }
-    }
+    const [amount, setAmount] = React.useState<string>(INITIAL_AMOUNT_VALUE.toString());
 
     const handleSwapCurrencies = () => {
-        setCurrencySelect(currencySelect =>
-            ({
-                currency_from: currencySelect.currency_to,
-                currency_to: currencySelect.currency_from
-            }))
+        const newBaseCurrency = {
+            currency_from: currencySelect.currency_to,
+            currency_to: currencySelect.currency_from
+        }
+        changeAndSaveBaseCurrency(newBaseCurrency);
+    }
+
+    const changeAndSaveBaseCurrency = (newBaseCurrency: ICurrencySelect) => {
+        setCurrencySelect(newBaseCurrency)
+        setShouldSendRequest(true);
+        localStorage.setItem(BASE_CURRENCY_CONVERT_KEY, JSON.stringify(newBaseCurrency));
     }
 
     const fetchData = React.useCallback(async () => {
         await dispatch(await getCurrencies());
     }, [dispatch]);
 
+    const conversationRequest = React.useCallback(async (currencyFrom: string, currencyTo: string, amount: number) => {
+        await dispatch(await currencyConversation(currencyFrom, currencyTo, amount))
+    }, [dispatch])
+
     const loadBaseCurrencySelect = React.useCallback(async () => {
         if (currencySelect === InitialCurrencySelectState) {
-            const sessionBaseCurrency = sessionStorage.getItem(BASE_CURRENCY_KEY);
-            if (sessionBaseCurrency) {
-                setCurrencySelect({
-                    currency_from: sessionBaseCurrency,
-                    currency_to: sessionBaseCurrency === BASE_CURRENCIES.USD ?
-                        BASE_CURRENCIES.EUR :
-                        BASE_CURRENCIES.USD
-                });
+            const storageBaseCurrencyConvert = localStorage.getItem(BASE_CURRENCY_CONVERT_KEY);
+            const savedBaseCurrencyConvert = storageBaseCurrencyConvert ? JSON.parse(storageBaseCurrencyConvert) : null
+            let newBaseCurrency: ICurrencySelect;
+            if (savedBaseCurrencyConvert) {
+                if (savedBaseCurrencyConvert?.currency_from === savedBaseCurrencyConvert?.currency_to) {
+                    newBaseCurrency = {
+                        currency_from: savedBaseCurrencyConvert?.currency_from,
+                        currency_to: savedBaseCurrencyConvert?.currency_from === BASE_CURRENCIES.USD ?
+                            BASE_CURRENCIES.EUR :
+                            BASE_CURRENCIES.USD
+                    }
+                } else {
+                    newBaseCurrency = {
+                        currency_from:
+                            savedBaseCurrencyConvert?.currency_from ??
+                            (savedBaseCurrencyConvert?.currency_to === BASE_CURRENCIES.USD ?
+                                BASE_CURRENCIES.EUR : BASE_CURRENCIES.USD),
+                        currency_to: savedBaseCurrencyConvert?.currency_to ??
+                            (savedBaseCurrencyConvert?.currency_from === BASE_CURRENCIES.EUR ?
+                                BASE_CURRENCIES.USD : BASE_CURRENCIES.EUR),
+                    }
+                }
             } else {
                 const baseCurrencyByLocation = await getLocation();
-                setCurrencySelect({
+                newBaseCurrency = {
                     currency_from: baseCurrencyByLocation,
                     currency_to: baseCurrencyByLocation === BASE_CURRENCIES.USD ?
                         BASE_CURRENCIES.EUR :
                         BASE_CURRENCIES.USD
-                });
+                }
             }
+            changeAndSaveBaseCurrency(newBaseCurrency);
         }
     }, [currencySelect])
 
@@ -119,18 +84,23 @@ const CurrencyConverterContainer = () => {
         }
     }, [isLoading, fetchData, loadBaseCurrencySelect])
 
+    React.useEffect(() => {
+        if (shouldSendRequest && amount !== "" && currencySelect !== InitialCurrencySelectState) {
+            conversationRequest(currencySelect?.currency_from, currencySelect?.currency_to, formatCurrency(amount)).catch(console.error);
+            setShouldSendRequest(false);
+        }
+    }, [amount, conversationRequest, currencySelect, shouldSendRequest])
+
     if (!isLoading && converter_state?.loadingCurrencies === false) {
         return (
             <CurrencyConverter
                 converter_state={converter_state}
                 currencySelect={currencySelect}
                 amount={amount}
-                changeCurrencySelectFrom={changeCurrencySelectFrom}
-                changeCurrencySelectTo={changeCurrencySelectTo}
-                handleAmountChange={handleAmountChange}
-                handleInputBlur={handleInputBlur}
+                setAmount={setAmount}
+                setShouldSendRequest={setShouldSendRequest}
                 handleSwapCurrencies={handleSwapCurrencies}
-            />
+                changeAndSaveBaseCurrency={changeAndSaveBaseCurrency}/>
         )
     } else {
         return (
