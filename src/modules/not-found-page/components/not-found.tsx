@@ -1,9 +1,8 @@
 import React from 'react';
 import {Box, Typography} from "@mui/material";
-import {INotFoundComponentProps} from "../types/not-found-component-props";
 import "../css/style.css";
 
-const NotFound: React.FC<INotFoundComponentProps> = ({theme}) => {
+const NotFound = () => {
     return (
         <Box style={{
             position: "relative",
@@ -16,12 +15,12 @@ const NotFound: React.FC<INotFoundComponentProps> = ({theme}) => {
             }}>
                 <Box className="notfound-404">
                     <Typography component='h3' style={{
-                        color: theme.palette.mode === 'dark' ? 'rgb(212, 212, 212)' : 'rgb(38, 38, 38)'
+                        color: 'rgb(38, 38, 38)'
                     }}>
                         Oops! Page not found
                     </Typography>
                     <Typography component='h1' style={{
-                        color: theme.palette.mode === 'dark' ? 'rgb(212, 212, 212)' : 'rgb(38, 38, 38)'
+                        color: 'rgb(38, 38, 38)'
                     }}>
                     <span style={{
                         textShadow: "-8px 0 0 #27272A",
@@ -41,7 +40,7 @@ const NotFound: React.FC<INotFoundComponentProps> = ({theme}) => {
                     </Typography>
                 </Box>
                 <Typography component='h2' style={{
-                    color: theme.palette.mode === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+                    color: 'rgb(0, 0, 0)'
                 }}>
                     we are sorry, but the page you requested was not found
                 </Typography>

@@ -16,10 +16,10 @@ const CurrencyListContainer = () => {
         if (newBaseCurrency) {
             await dispatch(await getCurrencies(newBaseCurrency));
         } else {
-            const sessionBaseCurrency = sessionStorage.getItem(BASE_CURRENCY_KEY);
-            if (sessionBaseCurrency) {
-                setBaseCurrency(sessionBaseCurrency);
-                await dispatch(await getCurrencies(sessionBaseCurrency));
+            const savedBaseCurrency = localStorage.getItem(BASE_CURRENCY_KEY);
+            if (savedBaseCurrency) {
+                setBaseCurrency(savedBaseCurrency);
+                await dispatch(await getCurrencies(savedBaseCurrency));
             } else {
                 const baseCurrencyByLocation = await getLocation();
                 setBaseCurrency(baseCurrencyByLocation);
@@ -31,7 +31,7 @@ const CurrencyListContainer = () => {
     const changeBaseCurrency = async (newBaseCurrency: string) => {
         await fetchData(newBaseCurrency);
         setBaseCurrency(newBaseCurrency);
-        sessionStorage.setItem(BASE_CURRENCY_KEY, newBaseCurrency)
+        localStorage.setItem(BASE_CURRENCY_KEY, newBaseCurrency)
     };
 
     const handleAddToFavorite = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>, favoriteCurrencyCode: string) => {

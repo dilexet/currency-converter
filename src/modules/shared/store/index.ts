@@ -1,4 +1,4 @@
-import {configureStore, ThunkAction, AnyAction} from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit'
 import {logger} from "redux-logger";
 import {rootReducer} from "./reducers/root-reducer";
 
@@ -10,4 +10,3 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export type AppThunk = ThunkAction<void, RootState, undefined, AnyAction>
