@@ -27,7 +27,7 @@ const CurrencyConverter: React.FC<ICurrencyConverterComponentProps> = ({
                   columns={{xs: 1, sm: 1, md: 4}}
                   spacing={4}
                   direction="row"
-                  justifyContent="center"
+                  justifyContent="left"
                   alignItems="left">
                 <Grid item>
                     <CurrencyInputContainer amount={amount}
