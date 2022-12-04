@@ -5,26 +5,18 @@ import {
     Grid, InputLabel, MenuItem,
     Paper, Select,
     Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography
+    TableContainer
 } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import {ICurrencyListComponentProps} from "../types/currency-list-component-props";
-
+import CurrencyListTableBodyContainer from "../containers/currency-list-table-body-container";
 import "../css/table.css";
+import CurrencyListTableHead from "./currency-list-table-head";
 
 const CurrencyList: React.FC<ICurrencyListComponentProps> = ({
-                                                                currencies,
-                                                                baseCurrency,
-                                                                changeBaseCurrency,
-                                                                handleAddToFavorite,
-                                                                handleRemoveFromFavorite
-                                                            }) => {
+                                                                 currencies,
+                                                                 baseCurrency,
+                                                                 changeBaseCurrency
+                                                             }) => {
     return (
         <Container component="main" sx={{mt: 2, mb: 2}} maxWidth="lg">
             <Grid item>
@@ -54,62 +46,9 @@ const CurrencyList: React.FC<ICurrencyListComponentProps> = ({
                 <Box>
                     <TableContainer component={Paper}>
                         <Table sx={{minWidth: 650}} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="left">
-                                        <Typography variant="h6">
-                                            Code
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Typography variant="h6">
-                                            Name
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        <Typography variant="h6">
-                                            Rate
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Typography variant="h6">
-                                            Add to favorite
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {currencies?.map((currency, index) => (
-                                    <TableRow key={index} className="table-currency-row"
-                                              onClick={() => changeBaseCurrency(currency?.code)}>
-                                        <TableCell align="left">
-                                            <Typography variant="body1">
-                                                {currency?.code}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <Typography variant="body1">
-                                                {currency?.name}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                            <Typography variant="body1">
-                                                {currency?.rate}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                currency.isFavorite ?
-                                                    <FavoriteIcon color="error" cursor="pointer"
-                                                                  onClick={(e) =>
-                                                                      handleRemoveFromFavorite(e, currency?.code)}/> :
-                                                    <FavoriteBorderIcon cursor="pointer" onClick={(e) =>
-                                                        handleAddToFavorite(e, currency?.code)}/>
-                                            }
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+                            <CurrencyListTableHead/>
+                            <CurrencyListTableBodyContainer currencies={currencies}
+                                                            changeBaseCurrency={changeBaseCurrency}/>
                         </Table>
                     </TableContainer>
                 </Box>

@@ -4,13 +4,19 @@ import Loading from "../../loading/components/loading";
 import {getLocation} from "../../location/services/get-currency-by-location";
 import {BASE_CURRENCY_KEY} from "../../shared/constants/storage-currency.constants";
 import CurrencyList from "../components/currency-list";
-import {addToFavorite, removeFromFavorite, getCurrencies} from "../store/action-creator/currency-list-actions";
+import {getCurrencies} from "../store/action-creator/currency-list-actions";
 
 const CurrencyListContainer = () => {
     const dispatch = useAppDispatch();
     const currencies_state = useAppSelector(x => x.currency);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
     const [baseCurrency, setBaseCurrency] = React.useState<string>("");
+
+    const changeBaseCurrency = async (newBaseCurrency: string) => {
+        await fetchData(newBaseCurrency);
+        setBaseCurrency(newBaseCurrency);
+        localStorage.setItem(BASE_CURRENCY_KEY, newBaseCurrency)
+    };
 
     const fetchData = React.useCallback(async (newBaseCurrency: string) => {
         if (newBaseCurrency) {
@@ -28,21 +34,6 @@ const CurrencyListContainer = () => {
         }
     }, [dispatch])
 
-    const changeBaseCurrency = async (newBaseCurrency: string) => {
-        await fetchData(newBaseCurrency);
-        setBaseCurrency(newBaseCurrency);
-        localStorage.setItem(BASE_CURRENCY_KEY, newBaseCurrency)
-    };
-
-    const handleAddToFavorite = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>, favoriteCurrencyCode: string) => {
-        e.stopPropagation();
-        await dispatch(await addToFavorite(favoriteCurrencyCode));
-    }
-    const handleRemoveFromFavorite = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>, favoriteCurrencyCode: string) => {
-        e.stopPropagation();
-        await dispatch(await removeFromFavorite(favoriteCurrencyCode));
-    }
-
     React.useEffect(() => {
         if (isLoading) {
             fetchData(baseCurrency).catch(console.error)
@@ -52,9 +43,9 @@ const CurrencyListContainer = () => {
 
     if (!isLoading && currencies_state?.loading === false) {
         return (
-            <CurrencyList currencies={currencies_state.currencies} baseCurrency={baseCurrency}
+            <CurrencyList currencies={currencies_state.currencies}
+                          baseCurrency={baseCurrency}
                           changeBaseCurrency={changeBaseCurrency}
-                          handleAddToFavorite={handleAddToFavorite} handleRemoveFromFavorite={handleRemoveFromFavorite}
             />
         )
     } else {

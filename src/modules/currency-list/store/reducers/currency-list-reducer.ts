@@ -1,12 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit"
-import {ICurrenciesObject} from "../../types/currency-list-component-props";
 import currencySortComparator from "../../utils/currency-sort-comporator";
-
-interface ICurrencyListState {
-    loading: boolean,
-    success: boolean,
-    currencies: ICurrenciesObject[],
-}
+import {ICurrencyListState} from "../../types/currency-list-state";
 
 const initialState: ICurrencyListState = {
     loading: true,
