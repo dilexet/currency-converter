@@ -1,9 +1,9 @@
 import React from 'react';
 import {Box, Typography} from "@mui/material";
-import {NotFoundComponentProps} from "../types/not-found-component-props";
+import {INotFoundComponentProps} from "../types/not-found-component-props";
 import "../css/style.css";
 
-const NotFound: React.FC<NotFoundComponentProps> = ({theme}) => {
+const NotFound: React.FC<INotFoundComponentProps> = ({theme}) => {
     return (
         <Box style={{
             position: "relative",

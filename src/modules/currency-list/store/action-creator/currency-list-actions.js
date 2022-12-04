@@ -5,7 +5,7 @@ import currencySortComparator from "../../utils/currency-sort-comporator";
 import {
     loading, get_currencies_success, get_currencies_error,
     add_currency_to_favorite, remove_currency_from_favorite
-} from "../reducers/curency-list-reducer";
+} from "../reducers/currency-list-reducer";
 
 export const getCurrencies = (base_code) => {
     return async (dispatch) => {

@@ -1,11 +1,11 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {AppBar, Box, Toolbar, Typography, Link as LinkMaterial} from '@mui/material';
-import {HeaderComponentProps} from "../types/header-component-props";
+import {IHeaderComponentProps} from "../types/header-component-props";
 import {CURRENCY_CONVERTER, CURRENCY_LIST} from "../constants/base-routes.constants";
 import {APP_NAME} from "../../shared/constants/base.constants";
 
-const Header: React.FC<HeaderComponentProps> = ({currentPath}) => {
+const Header: React.FC<IHeaderComponentProps> = ({currentPath}) => {
     return (
         <Box>
             <AppBar
