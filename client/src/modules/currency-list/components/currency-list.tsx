@@ -39,10 +39,8 @@ const CurrencyList: React.FC<ICurrencyListComponentProps> = ({
               labelId='base-currency-select-label'
               value={baseCurrency}
               label='Base currency'
-              onChange={(event) => {
-                void (async () => {
-                  await changeBaseCurrency(event.target.value)
-                })
+              onChange={async (event) => {
+                await changeBaseCurrency(event.target.value)
               }}
             >
               {currencies?.map((currency, index) => (

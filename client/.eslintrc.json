@@ -49,6 +49,7 @@
       "single"
     ],
     "no-duplicate-imports": "warn",
+    "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/strict-boolean-expressions": "off"

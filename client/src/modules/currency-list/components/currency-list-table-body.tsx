@@ -16,10 +16,8 @@ const CurrencyListTableBody: React.FC<ICurrencyListTableBodyComponentProps> = ({
         <TableRow
           key={index}
           className='table-currency-row'
-          onClick={() => {
-            void (async () => {
-              await changeBaseCurrency(currency?.code)
-            })
+          onClick={async () => {
+            await changeBaseCurrency(currency?.code)
           }}
         >
           <TableCell align='left'>
@@ -36,19 +34,15 @@ const CurrencyListTableBody: React.FC<ICurrencyListTableBodyComponentProps> = ({
               <FavoriteIcon
                 color='error'
                 cursor='pointer'
-                onClick={(e) => {
-                  void (async () => {
-                    await handleRemoveFromFavorite(e, currency?.code)
-                  })
+                onClick={async (e) => {
+                  await handleRemoveFromFavorite(e, currency?.code)
                 }}
               />
             ) : (
               <FavoriteBorderIcon
                 cursor='pointer'
-                onClick={(e) => {
-                  void (async () => {
-                    await handleAddToFavorite(e, currency?.code)
-                  })
+                onClick={async (e) => {
+                  await handleAddToFavorite(e, currency?.code)
                 }}
               />
             )}
