@@ -1,1 +1,1 @@
-export const APP_NAME = "Currency converter";
+export const APP_NAME = 'Currency converter'

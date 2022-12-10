@@ -1,6 +1,6 @@
 interface IRoutes {
-    path: string,
-    element: JSX.Element,
+  path: string
+  element: JSX.Element
 }
 
-export default IRoutes;
+export default IRoutes

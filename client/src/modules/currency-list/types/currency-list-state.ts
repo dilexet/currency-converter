@@ -1,7 +1,7 @@
-import {ICurrenciesObject} from "./currency-list-component-props";
+import { ICurrenciesObject } from './currency-list-component-props'
 
 export interface ICurrencyListState {
-    loading: boolean,
-    success: boolean,
-    currencies: ICurrenciesObject[],
+  loading: boolean
+  success: boolean
+  currencies: ICurrenciesObject[]
 }

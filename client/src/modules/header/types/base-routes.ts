@@ -1,6 +1,6 @@
 interface IBaseRoutes {
-    path: string,
-    display: string
+  path: string
+  display: string
 }
 
-export default IBaseRoutes;
+export default IBaseRoutes
