@@ -4,7 +4,7 @@ import Header from '../components/header'
 
 const HeaderContainer: React.FC = () => {
   const location = useLocation()
-  return <Header currentPath={location.pathname} />
+  return <Header currentPath={location.pathname}/>
 }
 
 export default HeaderContainer

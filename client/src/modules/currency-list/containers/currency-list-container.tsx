@@ -44,10 +44,11 @@ const CurrencyListContainer: React.FC = () => {
     }
   }, [baseCurrency, fetchData, isLoading])
 
-  if (!isLoading && !currencies_state?.loading) {
+  if (!isLoading) {
     return (
       <CurrencyList
         currencies={currencies_state.currencies}
+        isLoadingState={currencies_state?.loading}
         baseCurrency={baseCurrency}
         changeBaseCurrency={changeBaseCurrency}
       />

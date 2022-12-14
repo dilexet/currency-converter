@@ -10,6 +10,7 @@ import {
   Select,
   Table,
   TableContainer,
+  Skeleton,
 } from '@mui/material'
 import { ICurrencyListComponentProps } from '../types/currency-list-component-props'
 import CurrencyListTableBodyContainer from '../containers/currency-list-table-body-container'
@@ -18,6 +19,7 @@ import CurrencyListTableHead from './currency-list-table-head'
 
 const CurrencyList: React.FC<ICurrencyListComponentProps> = ({
   currencies,
+  isLoadingState,
   baseCurrency,
   changeBaseCurrency,
 }) => {
@@ -33,33 +35,41 @@ const CurrencyList: React.FC<ICurrencyListComponentProps> = ({
             justifyContent: 'center',
           }}
         >
-          <FormControl sx={{ width: '60%' }}>
-            <InputLabel id='base-currency-select-label'>Base currency</InputLabel>
-            <Select
-              labelId='base-currency-select-label'
-              value={baseCurrency}
-              label='Base currency'
-              onChange={async (event) => {
-                await changeBaseCurrency(event.target.value)
-              }}
-            >
-              {currencies?.map((currency, index) => (
-                <MenuItem value={currency.code} key={index}>
-                  {`${currency.code} : ${currency.name}`}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {isLoadingState ? (
+            <Skeleton variant='rounded' width={'60%'} height={56} />
+          ) : (
+            <FormControl sx={{ width: '60%' }}>
+              <InputLabel id='base-currency-select-label'>Base currency</InputLabel>
+              <Select
+                labelId='base-currency-select-label'
+                value={baseCurrency}
+                label='Base currency'
+                onChange={async (event) => {
+                  await changeBaseCurrency(event.target.value)
+                }}
+              >
+                {currencies?.map((currency, index) => (
+                  <MenuItem value={currency.code} key={index}>
+                    {`${currency.code} : ${currency.name}`}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
         </Box>
         <Box>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-              <CurrencyListTableHead />
-              <CurrencyListTableBodyContainer
-                currencies={currencies}
-                changeBaseCurrency={changeBaseCurrency}
-              />
-            </Table>
+            {isLoadingState ? (
+              <Skeleton variant='rounded' width={'100%'} height={'100vh'} />
+            ) : (
+              <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+                <CurrencyListTableHead />
+                <CurrencyListTableBodyContainer
+                  currencies={currencies}
+                  changeBaseCurrency={changeBaseCurrency}
+                />
+              </Table>
+            )}
           </TableContainer>
         </Box>
       </Grid>
