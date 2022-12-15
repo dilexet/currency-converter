@@ -1,6 +1,5 @@
 import React from 'react'
-import { Box, Typography } from '@mui/material'
-import CircularProgress from '@mui/material/CircularProgress'
+import { Box, Skeleton, Typography, Grid } from '@mui/material'
 import { ICurrencyConverterResultComponentProps } from '../types/currency-converter-result-component-props'
 
 const CurrencyConverterResultBox: React.FC<ICurrencyConverterResultComponentProps> = ({
@@ -12,7 +11,17 @@ const CurrencyConverterResultBox: React.FC<ICurrencyConverterResultComponentProp
     <Box className='currency-converter-main-box'>
       {converter_state?.loadingConversation ? (
         <Box sx={{ display: 'flex' }}>
-          <CircularProgress />
+          <Grid container rowSpacing={1}>
+            <Grid item xs={12}>
+              <Skeleton variant='rounded' width={'100%'} height={43} />
+            </Grid>
+            <Grid item xs={12}>
+              <Skeleton variant='rounded' width={'100%'} height={82} />
+            </Grid>
+            <Grid item xs={12}>
+              <Skeleton variant='rounded' width={'100%'} height={28} />
+            </Grid>
+          </Grid>
         </Box>
       ) : (
         <Box className='currency-converter-box'>
