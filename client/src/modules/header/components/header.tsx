@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { AppBar, Box, Toolbar, Typography, Link as LinkMaterial } from '@mui/material'
+import { AppBar, Box, Toolbar, Typography, Link as LinkMaterial, Button, Grid } from '@mui/material'
 import { APP_NAME } from '../../shared/constants/base.constants'
 import { IHeaderComponentProps } from '../types/header-component-props'
 import { CURRENCY_CONVERTER, CURRENCY_LIST } from '../constants/base-routes.constants'
@@ -10,7 +10,11 @@ const Header: React.FC<IHeaderComponentProps> = ({ currentPath }) => {
     <Box>
       <AppBar position='static' color='default' elevation={0}>
         <Toolbar sx={{ flexWrap: 'wrap' }}>
-          <Box>
+          <Box
+            style={{
+              width: '25%',
+            }}
+          >
             <Typography
               variant='h6'
               color='inherit'
@@ -21,30 +25,51 @@ const Header: React.FC<IHeaderComponentProps> = ({ currentPath }) => {
               {APP_NAME}
             </Typography>
           </Box>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box>
-            <LinkMaterial
-              sx={{ my: 1, mx: 1.5 }}
-              variant='button'
-              component={Link}
-              to={
-                currentPath === CURRENCY_CONVERTER.path
-                  ? CURRENCY_LIST.path
-                  : CURRENCY_CONVERTER.path
-              }
+          <Box
+            style={{
+              width: '75%',
+            }}
+          >
+            <Grid
+              container
+              columnSpacing={2}
               style={{
-                textDecoration: 'none',
-                marginLeft: '20px',
-                opacity: '0.9',
-                fontSize: '1em',
-                fontWeight: '400',
-                textTransform: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
               }}
             >
-              {currentPath === CURRENCY_CONVERTER.path
-                ? CURRENCY_LIST.display
-                : CURRENCY_CONVERTER.display}
-            </LinkMaterial>
+              <Grid item>
+                <LinkMaterial
+                  sx={{ my: 1, mx: 1.5 }}
+                  variant='button'
+                  component={Link}
+                  to={
+                    currentPath === CURRENCY_CONVERTER.path
+                      ? CURRENCY_LIST.path
+                      : CURRENCY_CONVERTER.path
+                  }
+                  style={{
+                    textDecoration: 'none',
+                    marginLeft: '20px',
+                    opacity: '0.9',
+                    fontSize: '1em',
+                    fontWeight: '400',
+                    textTransform: 'none',
+                  }}
+                >
+                  {currentPath === CURRENCY_CONVERTER.path
+                    ? CURRENCY_LIST.display
+                    : CURRENCY_CONVERTER.display}
+                </LinkMaterial>
+              </Grid>
+              <Grid item>
+                <Button variant='outlined'>Sign In</Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained'>Sign Up</Button>
+              </Grid>
+            </Grid>
           </Box>
         </Toolbar>
       </AppBar>
