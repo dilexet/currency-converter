@@ -4,6 +4,7 @@
   "description": "Test project at 12devs",
   "author": "Pavarha Maksim",
   "private": true,
+  "proxy": "http://localhost:3001/api",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
