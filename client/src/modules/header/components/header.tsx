@@ -63,12 +63,6 @@ const Header: React.FC<IHeaderComponentProps> = ({ currentPath }) => {
                     : CURRENCY_CONVERTER.display}
                 </LinkMaterial>
               </Grid>
-              <Grid item>
-                <Button variant='outlined'>Sign In</Button>
-              </Grid>
-              <Grid item>
-                <Button variant='contained'>Sign Up</Button>
-              </Grid>
             </Grid>
           </Box>
         </Toolbar>
