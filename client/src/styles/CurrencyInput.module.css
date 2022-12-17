@@ -1,0 +1,18 @@
+.form_control {
+    width: 240px;
+}
+
+.custom_input_label {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(20, 30, 55);
+}
+
+.amount_input input {
+    height: 1.175rem;
+}
+
+.currency_select div {
+    max-height: 1.175rem;
+    min-height: 1.175rem;
+}
