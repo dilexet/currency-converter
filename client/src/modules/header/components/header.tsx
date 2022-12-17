@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { AppBar, Box, Toolbar, Typography, Link as LinkMaterial, Grid } from '@mui/material'
+import { AppBar, Box, Toolbar, Typography, Link as LinkMaterial, Button, Grid } from '@mui/material'
 import { APP_NAME } from '../../shared/constants/base.constants'
 import { IHeaderComponentProps } from '../types/header-component-props'
 import { CURRENCY_CONVERTER, CURRENCY_LIST } from '../constants/base-routes.constants'
@@ -62,6 +62,12 @@ const Header: React.FC<IHeaderComponentProps> = ({ currentPath }) => {
                     ? CURRENCY_LIST.display
                     : CURRENCY_CONVERTER.display}
                 </LinkMaterial>
+              </Grid>
+              <Grid item>
+                <Button variant='outlined'>Sign In</Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained'>Sign Up</Button>
               </Grid>
             </Grid>
           </Box>
