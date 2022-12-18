@@ -9,7 +9,7 @@ import {
 const Header = ({ currentPath }: IHeaderComponentProps) => {
   return (
     <Box>
-      <AppBar position="static" color="default" elevation={0}>
+      <AppBar position='static' color='default' elevation={0}>
         <Toolbar sx={{ flexWrap: "wrap" }}>
           <Box
             style={{
@@ -17,11 +17,11 @@ const Header = ({ currentPath }: IHeaderComponentProps) => {
             }}
           >
             <Typography
-              variant="h6"
-              color="inherit"
+              variant='h6'
+              color='inherit'
               style={{ textDecoration: "none", marginRight: "10px" }}
               component={Link}
-              href="/"
+              href='/'
             >
               {APP_NAME}
             </Typography>
@@ -43,7 +43,7 @@ const Header = ({ currentPath }: IHeaderComponentProps) => {
               <Grid item>
                 <Link
                   sx={{ my: 1, mx: 1.5 }}
-                  variant="button"
+                  variant='button'
                   component={Link}
                   href={
                     currentPath === CURRENCY_CONVERTER.path

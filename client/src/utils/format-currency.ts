@@ -1,10 +1,10 @@
-import { INITIAL_AMOUNT_VALUE } from '../constants/currency-converter/initial-states'
+import { INITIAL_AMOUNT_VALUE } from "../constants/currency-converter/initial-states";
 
 export const formatCurrency = (currencyAmount: string): number => {
-  const validAmount = parseFloat(parseFloat(currencyAmount).toFixed(2))
+  const validAmount = parseFloat(parseFloat(currencyAmount).toFixed(2));
   if (validAmount && !isNaN(validAmount)) {
-    return validAmount
+    return validAmount;
   } else {
-    return INITIAL_AMOUNT_VALUE
+    return INITIAL_AMOUNT_VALUE;
   }
-}
+};

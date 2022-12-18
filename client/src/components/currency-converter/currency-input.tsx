@@ -17,27 +17,27 @@ const CurrencyInput = ({
 }: ICurrencyInputComponentProps) => {
   return (
     <FormControl className={styles.form_control}>
-      <InputLabel htmlFor="amount-input" className={styles.custom_input_label}>
+      <InputLabel htmlFor='amount-input' className={styles.custom_input_label}>
         Amount
       </InputLabel>
       <OutlinedInput
-        id="amount-input"
+        id='amount-input'
         className={styles.amount_input}
-        type="number"
+        type='number'
         value={amount}
         onChange={handleAmountChange}
         onBlur={handleInputBlur}
         startAdornment={
-          <InputAdornment position="start">
+          <InputAdornment position='start'>
             {currencySelect?.currency_from}
           </InputAdornment>
         }
         endAdornment={
-          <InputAdornment position="end">
+          <InputAdornment position='end'>
             {loadingConversation ? <CircularProgress size={25} /> : <></>}
           </InputAdornment>
         }
-        label="Amount"
+        label='Amount'
       />
     </FormControl>
   );

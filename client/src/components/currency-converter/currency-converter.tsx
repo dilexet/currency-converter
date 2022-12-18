@@ -18,15 +18,15 @@ const CurrencyConverter = ({
   changeAndSaveBaseCurrency,
 }: ICurrencyConverterComponentProps) => {
   return (
-    <Container component="main" sx={{ mt: 2, mb: 2 }} maxWidth="lg">
+    <Container component='main' sx={{ mt: 2, mb: 2 }} maxWidth='lg'>
       <Grid
         container
         className={styles.main_box}
         columns={{ xs: 1, sm: 1, md: 4 }}
         spacing={4}
-        direction="row"
-        justifyContent="left"
-        alignItems="left"
+        direction='row'
+        justifyContent='left'
+        alignItems='left'
       >
         <Grid item>
           <CurrencyInputContainer
@@ -48,7 +48,7 @@ const CurrencyConverter = ({
               className={styles.swap_currencies_button}
               onClick={handleSwapCurrencies}
             >
-              <SwapHorizIcon fontSize="large" color="primary" />
+              <SwapHorizIcon fontSize='large' color='primary' />
             </IconButton>
           </Box>
         </Grid>

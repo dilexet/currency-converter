@@ -21,27 +21,27 @@ const CurrencyListTableBody = ({
             await changeBaseCurrency(currency?.code);
           }}
         >
-          <TableCell align="left">
-            <Typography variant="body1">{currency?.code}</Typography>
+          <TableCell align='left'>
+            <Typography variant='body1'>{currency?.code}</Typography>
           </TableCell>
-          <TableCell align="center">
-            <Typography variant="body1">{currency?.name}</Typography>
+          <TableCell align='center'>
+            <Typography variant='body1'>{currency?.name}</Typography>
           </TableCell>
-          <TableCell align="left">
-            <Typography variant="body1">{currency?.rate}</Typography>
+          <TableCell align='left'>
+            <Typography variant='body1'>{currency?.rate}</Typography>
           </TableCell>
-          <TableCell align="center">
+          <TableCell align='center'>
             {currency.isFavorite ? (
               <FavoriteIcon
-                color="error"
-                cursor="pointer"
+                color='error'
+                cursor='pointer'
                 onClick={async (e) => {
                   await handleRemoveFromFavorite(e, currency?.code);
                 }}
               />
             ) : (
               <FavoriteBorderIcon
-                cursor="pointer"
+                cursor='pointer'
                 onClick={async (e) => {
                   await handleAddToFavorite(e, currency?.code);
                 }}

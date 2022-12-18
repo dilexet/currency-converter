@@ -10,13 +10,13 @@ const CurrencySelectTo = ({
 }: ICurrencySelectComponentsProps) => {
   return (
     <FormControl className={styles.form_control}>
-      <InputLabel id="select-currency-to" className={styles.custom_input_label}>
+      <InputLabel id='select-currency-to' className={styles.custom_input_label}>
         To
       </InputLabel>
       <Select
-        labelId="select-currency-to"
+        labelId='select-currency-to'
         value={currencySelect.currency_to}
-        label="To"
+        label='To'
         className={styles.currency_select}
         onChange={(event) => changeCurrencySelect(event.target?.value)}
       >

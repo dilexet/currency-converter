@@ -14,13 +14,13 @@ const CurrencyConverterResultBox = ({
         <Box sx={{ display: "flex" }}>
           <Grid container rowSpacing={1}>
             <Grid item xs={12}>
-              <Skeleton variant="rounded" width={"100%"} height={43} />
+              <Skeleton variant='rounded' width={"100%"} height={43} />
             </Grid>
             <Grid item xs={12}>
-              <Skeleton variant="rounded" width={"100%"} height={82} />
+              <Skeleton variant='rounded' width={"100%"} height={82} />
             </Grid>
             <Grid item xs={12}>
-              <Skeleton variant="rounded" width={"100%"} height={28} />
+              <Skeleton variant='rounded' width={"100%"} height={28} />
             </Grid>
           </Grid>
         </Box>
@@ -31,13 +31,13 @@ const CurrencyConverterResultBox = ({
               <Box>
                 <Typography
                   className={styles.currency_converter_from_text}
-                  variant="body1"
+                  variant='body1'
                 >
                   {`${converter_state?.amount} ${currencySelect.currency_from} = `}
                 </Typography>
                 <Typography
                   className={styles.currency_converter_to_whole_part_text}
-                  variant="body1"
+                  variant='body1'
                 >
                   {`${converter_state?.conversationResult?.wholePart}`}
                   <span className={styles.currency_converter_to_remainder_text}>

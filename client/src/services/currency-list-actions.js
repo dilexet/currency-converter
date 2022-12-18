@@ -24,7 +24,7 @@ export const getCurrencies = (base_code) => {
       .then(
         axios.spread((get_codes_result, get_rates_result) => {
           const favorite_currencies = JSON.parse(
-            localStorage.getItem(FAVORITE_CURRENCY_KEY)
+            localStorage.getItem(FAVORITE_CURRENCY_KEY),
           );
           const currencies_array = get_codes_result?.data?.supported_codes
             ?.map(([key, value]) => ({
@@ -38,9 +38,9 @@ export const getCurrencies = (base_code) => {
           dispatch(
             get_currencies_success({
               currencies: currencies_array,
-            })
+            }),
           );
-        })
+        }),
       )
       .catch(() => dispatch(get_currencies_error()));
   };
@@ -49,7 +49,7 @@ export const getCurrencies = (base_code) => {
 export const addToFavorite = (favoriteCurrencyCode) => {
   return async (dispatch) => {
     let favorite_currencies = JSON.parse(
-      localStorage.getItem(FAVORITE_CURRENCY_KEY)
+      localStorage.getItem(FAVORITE_CURRENCY_KEY),
     );
     if (favorite_currencies) {
       favorite_currencies = [...favorite_currencies, favoriteCurrencyCode];
@@ -58,12 +58,12 @@ export const addToFavorite = (favoriteCurrencyCode) => {
     }
     localStorage.setItem(
       FAVORITE_CURRENCY_KEY,
-      JSON.stringify(favorite_currencies)
+      JSON.stringify(favorite_currencies),
     );
     dispatch(
       add_currency_to_favorite({
         favoriteCurrencyCode,
-      })
+      }),
     );
   };
 };
@@ -71,23 +71,23 @@ export const addToFavorite = (favoriteCurrencyCode) => {
 export const removeFromFavorite = (favoriteCurrencyCode) => {
   return async (dispatch) => {
     let favorite_currencies = JSON.parse(
-      localStorage.getItem(FAVORITE_CURRENCY_KEY)
+      localStorage.getItem(FAVORITE_CURRENCY_KEY),
     );
     if (favorite_currencies) {
       favorite_currencies = favorite_currencies.filter(
-        (value) => value !== favoriteCurrencyCode
+        (value) => value !== favoriteCurrencyCode,
       );
     } else {
       favorite_currencies = [];
     }
     localStorage.setItem(
       FAVORITE_CURRENCY_KEY,
-      JSON.stringify(favorite_currencies)
+      JSON.stringify(favorite_currencies),
     );
     dispatch(
       remove_currency_from_favorite({
         favoriteCurrencyCode,
-      })
+      }),
     );
   };
 };

@@ -11,15 +11,15 @@ const CurrencySelectFrom = ({
   return (
     <FormControl className={styles.form_control}>
       <InputLabel
-        id="select-currency-from"
+        id='select-currency-from'
         className={styles.custom_input_label}
       >
         From
       </InputLabel>
       <Select
-        labelId="select-currency-from"
+        labelId='select-currency-from'
         value={currencySelect.currency_from}
-        label="From"
+        label='From'
         className={styles.currency_select}
         onChange={(event) => changeCurrencySelect(event.target?.value)}
       >

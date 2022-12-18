@@ -1,4 +1,4 @@
-import { TableCell, TableHead, TableRow, Typography } from '@mui/material'
+import { TableCell, TableHead, TableRow, Typography } from "@mui/material";
 
 const CurrencyListTableHead = () => {
   return (
@@ -18,7 +18,7 @@ const CurrencyListTableHead = () => {
         </TableCell>
       </TableRow>
     </TableHead>
-  )
-}
+  );
+};
 
-export default CurrencyListTableHead
+export default CurrencyListTableHead;

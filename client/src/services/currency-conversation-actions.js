@@ -22,12 +22,12 @@ export const getCurrencies = () => {
           ([key, value]) => ({
             code: key,
             name: value,
-          })
+          }),
         );
         dispatch(
           get_currencies_success({
             currencies: currencies_array,
-          })
+          }),
         );
       })
       .catch(() => dispatch(get_currencies_error()));
@@ -39,7 +39,7 @@ export const currencyConversation = (currencyFrom, currencyTo, amount) => {
     dispatch(loadingConversation());
     axios
       .get(
-        PAIR_CONVERSATION_REQUEST + `${currencyFrom}/${currencyTo}/${amount}`
+        PAIR_CONVERSATION_REQUEST + `${currencyFrom}/${currencyTo}/${amount}`,
       )
       .then((response) => {
         const wholePart =
@@ -55,7 +55,7 @@ export const currencyConversation = (currencyFrom, currencyTo, amount) => {
             },
             conversationRates: response?.data?.conversion_rate,
             amount,
-          })
+          }),
         );
       })
       .catch(() => dispatch(get_conversation_result_error()));

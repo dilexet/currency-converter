@@ -1,30 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { ICurrencyListState } from '../types/currency-list/currency-list-state'
-import currencySortComparator from '../utils/currency-sort-comporator'
+import { createSlice } from "@reduxjs/toolkit";
+import { ICurrencyListState } from "../types/currency-list/currency-list-state";
+import currencySortComparator from "../utils/currency-sort-comporator";
 
 const initialState: ICurrencyListState = {
   loading: true,
   success: true,
   currencies: [],
-}
+};
 
 const currencyListSlice = createSlice({
-  name: 'currency-list',
+  name: "currency-list",
   initialState,
   reducers: {
     loading(state) {
-      state.loading = true
-      state.success = false
+      state.loading = true;
+      state.success = false;
     },
     get_currencies_success(state, action) {
-      state.loading = false
-      state.success = true
-      state.currencies = action.payload.currencies
+      state.loading = false;
+      state.success = true;
+      state.currencies = action.payload.currencies;
     },
     get_currencies_error(state) {
-      state.loading = false
-      state.success = false
-      state.currencies = []
+      state.loading = false;
+      state.success = false;
+      state.currencies = [];
     },
     add_currency_to_favorite(state, action) {
       state.currencies = state.currencies
@@ -33,7 +33,7 @@ const currencyListSlice = createSlice({
             ? currency
             : { ...currency, isFavorite: true },
         )
-        .sort(currencySortComparator)
+        .sort(currencySortComparator);
     },
     remove_currency_from_favorite(state, action) {
       state.currencies = state.currencies
@@ -42,16 +42,16 @@ const currencyListSlice = createSlice({
             ? currency
             : { ...currency, isFavorite: false },
         )
-        .sort(currencySortComparator)
+        .sort(currencySortComparator);
     },
   },
-})
+});
 
-export default currencyListSlice.reducer
+export default currencyListSlice.reducer;
 export const {
   loading,
   get_currencies_success,
   get_currencies_error,
   add_currency_to_favorite,
   remove_currency_from_favorite,
-} = currencyListSlice.actions
+} = currencyListSlice.actions;

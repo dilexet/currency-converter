@@ -15,14 +15,14 @@ const CurrencyListTableBodyContainer = ({
 
   const handleAddToFavorite = async (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
-    favoriteCurrencyCode: string
+    favoriteCurrencyCode: string,
   ): Promise<void> => {
     e.stopPropagation();
     await dispatch(await addToFavorite(favoriteCurrencyCode));
   };
   const handleRemoveFromFavorite = async (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
-    favoriteCurrencyCode: string
+    favoriteCurrencyCode: string,
   ): Promise<void> => {
     e.stopPropagation();
     await dispatch(await removeFromFavorite(favoriteCurrencyCode));

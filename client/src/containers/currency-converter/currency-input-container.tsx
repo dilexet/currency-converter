@@ -13,7 +13,7 @@ const CurrencyInputContainer = ({
   const converter_state = useAppSelector((x) => x.converter);
 
   const handleAmountChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
     const newAmount = e.target.value.replace(/,/g, ".");
     setAmount(newAmount);
@@ -37,4 +37,4 @@ const CurrencyInputContainer = ({
   );
 };
 
-export default CurrencyInputContainer
+export default CurrencyInputContainer;
