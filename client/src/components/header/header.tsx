@@ -1,4 +1,5 @@
-import { AppBar, Box, Toolbar, Typography, Link, Grid } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography, Link as LinkMaterial, Grid } from "@mui/material";
+import Link from "next/link";
 import { IHeaderComponentProps } from "../../types/header/header-component-props";
 import { APP_NAME } from "../../constants/shared/base.constants";
 import {
@@ -9,22 +10,24 @@ import {
 const Header = ({ currentPath }: IHeaderComponentProps) => {
   return (
     <Box>
-      <AppBar position='static' color='default' elevation={0}>
+      <AppBar position="static" color="default" elevation={0}>
         <Toolbar sx={{ flexWrap: "wrap" }}>
           <Box
             style={{
               width: "25%",
             }}
           >
-            <Typography
-              variant='h6'
-              color='inherit'
-              style={{ textDecoration: "none", marginRight: "10px" }}
-              component={Link}
-              href='/'
-            >
-              {APP_NAME}
-            </Typography>
+            <Link href={"/"} style={{
+              textDecoration: "none",
+            }}>
+              <Typography
+                variant="h6"
+                color="inherit"
+                style={{ marginRight: "10px" }}
+              >
+                {APP_NAME}
+              </Typography>
+            </Link>
           </Box>
           <Box
             style={{
@@ -41,27 +44,28 @@ const Header = ({ currentPath }: IHeaderComponentProps) => {
               }}
             >
               <Grid item>
-                <Link
-                  sx={{ my: 1, mx: 1.5 }}
-                  variant='button'
-                  component={Link}
-                  href={
-                    currentPath === CURRENCY_CONVERTER.path
-                      ? CURRENCY_LIST.path
-                      : CURRENCY_CONVERTER.path
-                  }
-                  style={{
-                    textDecoration: "none",
-                    marginLeft: "20px",
-                    opacity: "0.9",
-                    fontSize: "1em",
-                    fontWeight: "400",
-                    textTransform: "none",
-                  }}
-                >
-                  {currentPath === CURRENCY_CONVERTER.path
-                    ? CURRENCY_LIST.display
-                    : CURRENCY_CONVERTER.display}
+                <Link href={currentPath === CURRENCY_CONVERTER.path
+                  ? CURRENCY_LIST.path
+                  : CURRENCY_CONVERTER.path}
+                      style={{
+                        textDecoration: "none",
+                      }}>
+                  <LinkMaterial
+                    sx={{ my: 1, mx: 1.5 }}
+                    variant="button"
+                    style={{
+                      textDecoration: "none",
+                      marginLeft: "20px",
+                      opacity: "0.9",
+                      fontSize: "1em",
+                      fontWeight: "400",
+                      textTransform: "none",
+                    }}
+                  >
+                    {currentPath === CURRENCY_CONVERTER.path
+                      ? CURRENCY_LIST.display
+                      : CURRENCY_CONVERTER.display}
+                  </LinkMaterial>
                 </Link>
               </Grid>
             </Grid>
