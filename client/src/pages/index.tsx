@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { ICurrencySelect } from "../types/currency-converter/currency-converter-select";
 import {
@@ -111,8 +112,8 @@ const Index = () => {
 
   useEffect(() => {
     if (isLoading) {
-      loadBaseCurrencySelect().catch(console.error);
       fetchData().catch(console.error);
+      loadBaseCurrencySelect().catch(console.error);
       setIsLoading(false);
     }
   }, [isLoading, fetchData, loadBaseCurrencySelect]);
@@ -132,21 +133,25 @@ const Index = () => {
     }
   }, [amount, conversationRequest, currencySelect, shouldSendRequest]);
 
-  if (!isLoading && !converter_state?.loadingCurrencies) {
-    return (
-      <CurrencyConverter
-        converter_state={converter_state}
-        currencySelect={currencySelect}
-        amount={amount}
-        setAmount={setAmount}
-        setShouldSendRequest={setShouldSendRequest}
-        handleSwapCurrencies={handleSwapCurrencies}
-        changeAndSaveBaseCurrency={changeAndSaveBaseCurrency}
-      />
-    );
-  } else {
-    return <Loading />;
-  }
+  return (
+    <>
+      <Head>
+        <title>Currency converter</title>
+      </Head>
+      {!isLoading && !converter_state?.loadingCurrencies ?
+        <CurrencyConverter
+          converter_state={converter_state}
+          currencySelect={currencySelect}
+          amount={amount}
+          setAmount={setAmount}
+          setShouldSendRequest={setShouldSendRequest}
+          handleSwapCurrencies={handleSwapCurrencies}
+          changeAndSaveBaseCurrency={changeAndSaveBaseCurrency}
+        /> :
+        <Loading />
+      }
+    </>
+  );
 };
 
 export default Index;

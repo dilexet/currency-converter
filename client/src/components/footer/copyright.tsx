@@ -6,12 +6,14 @@ const Copyright = () => {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
-      <Link href={"/"}
-            style={{ textDecoration: "none" }}>
-        <LinkMaterial color="inherit" style={{ textDecoration: "none" }}>
-          {APP_NAME}
-        </LinkMaterial>
-      </Link>{" "}
+      <LinkMaterial
+        color="inherit"
+        component={Link}
+        href="/"
+        style={{ textDecoration: "none" }}>
+        {APP_NAME}
+      </LinkMaterial>
+      {" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>

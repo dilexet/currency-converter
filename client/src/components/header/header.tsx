@@ -17,7 +17,7 @@ const Header = ({ currentPath }: IHeaderComponentProps) => {
               width: "25%",
             }}
           >
-            <Link href={"/"} style={{
+            <Link href="/" style={{
               textDecoration: "none",
             }}>
               <Typography
@@ -44,29 +44,26 @@ const Header = ({ currentPath }: IHeaderComponentProps) => {
               }}
             >
               <Grid item>
-                <Link href={currentPath === CURRENCY_CONVERTER.path
-                  ? CURRENCY_LIST.path
-                  : CURRENCY_CONVERTER.path}
-                      style={{
-                        textDecoration: "none",
-                      }}>
-                  <LinkMaterial
-                    sx={{ my: 1, mx: 1.5 }}
-                    variant="button"
-                    style={{
-                      textDecoration: "none",
-                      marginLeft: "20px",
-                      opacity: "0.9",
-                      fontSize: "1em",
-                      fontWeight: "400",
-                      textTransform: "none",
-                    }}
-                  >
-                    {currentPath === CURRENCY_CONVERTER.path
-                      ? CURRENCY_LIST.display
-                      : CURRENCY_CONVERTER.display}
-                  </LinkMaterial>
-                </Link>
+                <LinkMaterial
+                  sx={{ my: 1, mx: 1.5 }}
+                  variant="button"
+                  component={Link}
+                  href={currentPath === CURRENCY_CONVERTER.path
+                    ? CURRENCY_LIST.path
+                    : CURRENCY_CONVERTER.path}
+                  style={{
+                    textDecoration: "none",
+                    marginLeft: "20px",
+                    opacity: "0.9",
+                    fontSize: "1em",
+                    fontWeight: "400",
+                    textTransform: "none",
+                  }}
+                >
+                  {currentPath === CURRENCY_CONVERTER.path
+                    ? CURRENCY_LIST.display
+                    : CURRENCY_CONVERTER.display}
+                </LinkMaterial>
               </Grid>
             </Grid>
           </Box>

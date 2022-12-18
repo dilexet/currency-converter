@@ -5,6 +5,7 @@ import { getCurrencies } from "../services/currency-list-actions";
 import { getLocation } from "../services/get-currency-by-location";
 import CurrencyList from "../components/currency-list/currency-list";
 import Loading from "../components/loading/loading";
+import Head from "next/head";
 
 const Currencies = () => {
   const dispatch = useAppDispatch();
@@ -44,18 +45,22 @@ const Currencies = () => {
     }
   }, [baseCurrency, fetchData, isLoading]);
 
-  if (!isLoading) {
-    return (
-      <CurrencyList
-        currencies={currencies_state.currencies}
-        isLoadingState={currencies_state?.loading}
-        baseCurrency={baseCurrency}
-        changeBaseCurrency={changeBaseCurrency}
-      />
-    );
-  } else {
-    return <Loading />;
-  }
+  return (
+    <>
+      <Head>
+        <title>All currencies list</title>
+      </Head>
+      {!isLoading ?
+        <CurrencyList
+          currencies={currencies_state.currencies}
+          isLoadingState={currencies_state?.loading}
+          baseCurrency={baseCurrency}
+          changeBaseCurrency={changeBaseCurrency}
+        /> :
+        <Loading />
+      }
+    </>
+  );
 };
 
 export default Currencies;
