@@ -11,7 +11,7 @@ import {
   get_currencies_error,
   get_currencies_success,
   remove_currency_from_favorite,
-} from "../reducers/currency-list-reducer";
+} from "../redux/reducers/currency-list-reducer";
 
 export const getCurrencies = (base_code) => {
   return async (dispatch) => {

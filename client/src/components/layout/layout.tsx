@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import { Box, CssBaseline } from "@mui/material";
-import store from "../../store";
+import store from "../../redux/store";
 import HeaderContainer from "../../containers/header/header-container";
 import FooterContainer from "../../containers/footer/footer-container";
 import { ILayoutProps } from "../../types/layout/layout-props";

@@ -6,7 +6,7 @@ import {
   get_currencies_success,
   loadingConversation,
   loadingCurrencies,
-} from "../reducers/currency-converter-reducer";
+} from "../redux/reducers/currency-converter-reducer";
 import {
   PAIR_CONVERSATION_REQUEST,
   SUPPORTED_CODES_REQUEST,

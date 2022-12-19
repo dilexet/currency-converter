@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { logger } from "redux-logger";
-import { rootReducer } from "../reducers/root-reducer";
+import { rootReducer } from "./reducers/root-reducer";
 
 export function makeStore() {
   return configureStore({

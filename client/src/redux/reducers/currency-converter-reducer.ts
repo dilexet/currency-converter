@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ICurrencyConverterState from "../types/currency-converter/currency-converter-state";
+import ICurrencyConverterState from "../../types/currency-converter/currency-converter-state";
 
 const initialState: ICurrencyConverterState = {
   loadingCurrencies: true,

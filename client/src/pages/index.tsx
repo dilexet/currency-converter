@@ -7,17 +7,16 @@ import {
   InitialCurrencySelectState,
 } from "../constants/currency-converter/initial-states";
 import {
-  BASE_CURRENCIES,
   BASE_CURRENCY_CONVERT_KEY,
 } from "../constants/shared/storage-currency.constants";
 import {
   currencyConversation,
   getCurrencies,
 } from "../services/currency-conversation-actions";
-import { getLocation } from "../services/get-currency-by-location";
 import { formatCurrency } from "../utils/format-currency";
 import CurrencyConverter from "../components/currency-converter/currency-converter";
 import Loading from "../components/loading/loading";
+import getBaseCurrency from "../utils/get-base-currency";
 
 const Index = () => {
   const dispatch = useAppDispatch();
@@ -63,49 +62,7 @@ const Index = () => {
 
   const loadBaseCurrencySelect = useCallback(async () => {
     if (currencySelect === InitialCurrencySelectState) {
-      const storageBaseCurrencyConvert = localStorage.getItem(
-        BASE_CURRENCY_CONVERT_KEY,
-      );
-      const savedBaseCurrencyConvert = storageBaseCurrencyConvert
-        ? JSON.parse(storageBaseCurrencyConvert)
-        : null;
-      let newBaseCurrency: ICurrencySelect;
-      if (savedBaseCurrencyConvert) {
-        if (
-          savedBaseCurrencyConvert?.currency_from ===
-          savedBaseCurrencyConvert?.currency_to
-        ) {
-          newBaseCurrency = {
-            currency_from: savedBaseCurrencyConvert?.currency_from,
-            currency_to:
-              savedBaseCurrencyConvert?.currency_from === BASE_CURRENCIES.USD
-                ? BASE_CURRENCIES.EUR
-                : BASE_CURRENCIES.USD,
-          };
-        } else {
-          newBaseCurrency = {
-            currency_from:
-              savedBaseCurrencyConvert?.currency_from ??
-              (savedBaseCurrencyConvert?.currency_to === BASE_CURRENCIES.USD
-                ? BASE_CURRENCIES.EUR
-                : BASE_CURRENCIES.USD),
-            currency_to:
-              savedBaseCurrencyConvert?.currency_to ??
-              (savedBaseCurrencyConvert?.currency_from === BASE_CURRENCIES.EUR
-                ? BASE_CURRENCIES.USD
-                : BASE_CURRENCIES.EUR),
-          };
-        }
-      } else {
-        const baseCurrencyByLocation = await getLocation();
-        newBaseCurrency = {
-          currency_from: baseCurrencyByLocation,
-          currency_to:
-            baseCurrencyByLocation === BASE_CURRENCIES.USD
-              ? BASE_CURRENCIES.EUR
-              : BASE_CURRENCIES.USD,
-        };
-      }
+      const newBaseCurrency = await getBaseCurrency();
       changeAndSaveBaseCurrency(newBaseCurrency);
     }
   }, [currencySelect]);
