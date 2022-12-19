@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { logger } from "redux-logger";
-import { rootReducer } from "./reducers/root-reducer";
 import { createWrapper } from "next-redux-wrapper";
+import logger from "redux-logger";
+import { configureStore } from "@reduxjs/toolkit";
+import { rootReducer } from "./reducers/root-reducer";
 
 export function makeStore() {
   return configureStore({
