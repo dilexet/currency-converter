@@ -2,40 +2,34 @@ import axios from "axios";
 import {
   get_conversation_result_error,
   get_conversation_result_success,
-  get_currencies_error,
-  get_currencies_success,
   loadingConversation,
-  loadingCurrencies,
 } from "../redux/reducers/currency-converter-reducer";
-import {
-  PAIR_CONVERSATION_REQUEST,
-  SUPPORTED_CODES_REQUEST,
-} from "../constants/shared/currencies-api.constants";
+import { PAIR_CONVERSATION_REQUEST, SUPPORTED_CODES_REQUEST } from "../constants/shared/currencies-api.constants";
+import { Dispatch } from "redux";
 
-export const getCurrencies = () => {
-  return async (dispatch) => {
-    dispatch(loadingCurrencies());
-    axios
-      .get(SUPPORTED_CODES_REQUEST)
-      .then((response) => {
-        const currencies_array = response?.data?.supported_codes?.map(
-          ([key, value]) => ({
-            code: key,
-            name: value,
-          }),
-        );
-        dispatch(
-          get_currencies_success({
-            currencies: currencies_array,
-          }),
-        );
-      })
-      .catch(() => dispatch(get_currencies_error()));
-  };
+export const getCurrencyAsync = async () => {
+  try {
+    const response = await axios.get(
+      SUPPORTED_CODES_REQUEST,
+      {
+        headers:
+          { "Accept-Encoding": "gzip,deflate,compress" },
+      });
+    return response?.data?.supported_codes?.map(
+      ([key, value]: string) => ({
+        code: key,
+        name: value,
+      }),
+    );
+  } catch (err) {
+    console.log("ERROR");
+    return [];
+  }
 };
 
-export const currencyConversation = (currencyFrom, currencyTo, amount) => {
-  return async (dispatch) => {
+export const currencyConversation = (
+  currencyFrom: string, currencyTo: string, amount: number) => {
+  return async (dispatch: Dispatch) => {
     dispatch(loadingConversation());
     axios
       .get(

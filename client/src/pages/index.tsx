@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useCallback } from "react";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
@@ -11,12 +12,15 @@ import {
 } from "../constants/shared/storage-currency.constants";
 import {
   currencyConversation,
-  getCurrencies,
+  getCurrencyAsync,
 } from "../services/currency-conversation-actions";
 import { formatCurrency } from "../utils/format-currency";
 import CurrencyConverter from "../components/currency-converter/currency-converter";
 import Loading from "../components/loading/loading";
 import getBaseCurrency from "../utils/get-base-currency";
+import { GetServerSideProps } from "next";
+import { wrapper } from "../redux/store";
+import { get_currencies_error, get_currencies_success } from "../redux/reducers/currency-converter-reducer";
 
 const Index = () => {
   const dispatch = useAppDispatch();
@@ -47,10 +51,6 @@ const Index = () => {
     );
   };
 
-  const fetchData = useCallback(async () => {
-    await dispatch(await getCurrencies());
-  }, [dispatch]);
-
   const conversationRequest = useCallback(
     async (currencyFrom: string, currencyTo: string, amount: number) => {
       await dispatch(
@@ -69,11 +69,10 @@ const Index = () => {
 
   useEffect(() => {
     if (isLoading) {
-      fetchData().catch(console.error);
       loadBaseCurrencySelect().catch(console.error);
       setIsLoading(false);
     }
-  }, [isLoading, fetchData, loadBaseCurrencySelect]);
+  }, [isLoading, loadBaseCurrencySelect]);
 
   useEffect(() => {
     if (
@@ -110,5 +109,20 @@ const Index = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps(store => async () => {
+    const currencies_array = await getCurrencyAsync();
+    if (currencies_array) {
+      store.dispatch(
+        get_currencies_success({
+          currencies: currencies_array,
+        }),
+      );
+    } else {
+      store.dispatch(get_currencies_error());
+    }
+    return { props: {} };
+  });
 
 export default Index;
