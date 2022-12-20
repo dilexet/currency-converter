@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ICurrencyConverterState from "../../types/currency-converter/currency-converter-state";
+import { HYDRATE } from "next-redux-wrapper";
 
 const initialState: ICurrencyConverterState = {
   loadingCurrencies: true,
@@ -49,6 +50,15 @@ const currencyConverterSlice = createSlice({
       state.conversationResult = { wholePart: 0, remainder: "" };
       state.conversationRates = 0;
       state.amount = 0;
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      if (!action.payload.converter.currencies) {
+        return state;
+      }
+      state.currencies = action.payload.converter.currencies;
+      state.loadingCurrencies = false;
     },
   },
 });
