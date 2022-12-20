@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useCallback } from "react";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { ICurrencySelect } from "../types/currency-converter/currency-converter-select";
@@ -18,7 +18,6 @@ import { formatCurrency } from "../utils/format-currency";
 import CurrencyConverter from "../components/currency-converter/currency-converter";
 import Loading from "../components/loading/loading";
 import getBaseCurrency from "../utils/get-base-currency";
-import { GetServerSideProps } from "next";
 import { wrapper } from "../redux/store";
 import { get_currencies_error, get_currencies_success } from "../redux/reducers/currency-converter-reducer";
 
