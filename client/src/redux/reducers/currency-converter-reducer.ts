@@ -19,10 +19,6 @@ const currencyConverterSlice = createSlice({
   name: "currency-converter",
   initialState,
   reducers: {
-    loadingCurrencies(state) {
-      state.loadingCurrencies = true;
-      state.success = false;
-    },
     get_currencies_success(state, action) {
       state.loadingCurrencies = false;
       state.success = true;
@@ -52,14 +48,17 @@ const currencyConverterSlice = createSlice({
       state.amount = 0;
     },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
+  extraReducers: builder => {
+    builder.addCase(HYDRATE, (state, action: any) => {
       if (!action.payload.converter.currencies) {
-        return state;
+        state.loadingCurrencies = false;
+        state.success = false;
+        state.currencies = [];
       }
-      state.currencies = action.payload.converter.currencies;
       state.loadingCurrencies = false;
-    },
+      state.success = true;
+      state.currencies = action.payload.converter.currencies;
+    });
   },
 });
 
@@ -68,7 +67,6 @@ export const {
   loadingConversation,
   get_conversation_result_success,
   get_conversation_result_error,
-  loadingCurrencies,
   get_currencies_success,
   get_currencies_error,
 } = currencyConverterSlice.actions;
