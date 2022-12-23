@@ -4,4 +4,5 @@ export interface ICurrencyListState {
   loading: boolean;
   success: boolean;
   currencies: ICurrenciesObject[];
+  error: string;
 }

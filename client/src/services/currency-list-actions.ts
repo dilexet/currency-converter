@@ -1,51 +1,45 @@
 import axios from "axios";
-import {
-  CONVERSATION_RATES_REQUEST,
-  SUPPORTED_CODES_REQUEST,
-} from "../constants/shared/currencies-api.constants";
+import { CONVERSATION_RATES_REQUEST, SUPPORTED_CODES_REQUEST } from "../constants/shared/currencies-api.constants";
 import currencySortComparator from "../utils/currency-sort-comporator";
 import { FAVORITE_CURRENCY_KEY } from "../constants/shared/storage-currency.constants";
 import {
-  loading,
   add_currency_to_favorite,
-  get_currencies_error,
-  get_currencies_success,
   remove_currency_from_favorite,
 } from "../redux/reducers/currency-list-reducer";
 import { AppDispatch } from "../redux/store";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const getCurrencies = (base_code: string) => {
-  return async (dispatch: AppDispatch) => {
-    dispatch(loading());
-    axios
-      .all([
-        axios.get(SUPPORTED_CODES_REQUEST),
-        axios.get(CONVERSATION_RATES_REQUEST + base_code),
-      ])
-      .then(
-        axios.spread((get_codes_result, get_rates_result) => {
-          const storageFavoriteCurrency = localStorage.getItem(FAVORITE_CURRENCY_KEY) ?? null;
-          const favorite_currencies = storageFavoriteCurrency ?
-            JSON.parse(storageFavoriteCurrency) : [];
-          const currencies_array = get_codes_result?.data?.supported_codes
-            ?.map(([key, value]: string) => ({
-              code: key,
-              name: value,
-              rate: get_rates_result?.data?.conversion_rates[key],
-              isFavorite: favorite_currencies?.includes(key),
-            }))
-            .sort(currencySortComparator);
+export const fetchCurrencies = createAsyncThunk(
+  "currency/fetchAll",
+  async (base_code: string, thunkAPI) => {
+    try {
+      const response = await axios
+        .all([
+          axios.get(SUPPORTED_CODES_REQUEST),
+          axios.get(CONVERSATION_RATES_REQUEST + base_code),
+        ]).then(
+          axios.spread((get_codes_result, get_rates_result) => {
+            return { codes: get_codes_result, rates: get_rates_result };
+          }),
+        );
 
-          dispatch(
-            get_currencies_success({
-              currencies: currencies_array,
-            }),
-          );
-        }),
-      )
-      .catch(() => dispatch(get_currencies_error()));
-  };
-};
+      const storageFavoriteCurrency = localStorage.getItem(FAVORITE_CURRENCY_KEY) ?? null;
+      const favorite_currencies = storageFavoriteCurrency ?
+        JSON.parse(storageFavoriteCurrency) : [];
+      return response?.codes?.data?.supported_codes
+        ?.map(([key, value]: string) => ({
+          code: key,
+          name: value,
+          rate: response?.rates?.data?.conversion_rates[key],
+          isFavorite: favorite_currencies?.includes(key),
+        }))
+        .sort(currencySortComparator);
+
+    } catch (err) {
+      return thunkAPI.rejectWithValue("fetch currencies error");
+    }
+  },
+);
 
 export const addToFavorite = (favoriteCurrencyCode: string) => {
   return async (dispatch: AppDispatch) => {

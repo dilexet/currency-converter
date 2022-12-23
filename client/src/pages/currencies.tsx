@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
+import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { BASE_CURRENCY_KEY } from "../constants/shared/storage-currency.constants";
-import { getCurrencies } from "../services/currency-list-actions";
+import { fetchCurrencies } from "../services/currency-list-actions";
 import { getLocation } from "../services/get-currency-by-location";
 import CurrencyList from "../components/currency-list/currency-list";
 import Loading from "../components/loading/loading";
-import Head from "next/head";
 
 const Currencies = () => {
   const dispatch = useAppDispatch();
@@ -22,16 +22,16 @@ const Currencies = () => {
   const fetchData = useCallback(
     async (newBaseCurrency: string) => {
       if (newBaseCurrency) {
-        await dispatch(await getCurrencies(newBaseCurrency));
+        dispatch(fetchCurrencies(newBaseCurrency));
       } else {
         const savedBaseCurrency = localStorage.getItem(BASE_CURRENCY_KEY);
         if (savedBaseCurrency) {
           setBaseCurrency(savedBaseCurrency);
-          await dispatch(await getCurrencies(savedBaseCurrency));
+          dispatch(fetchCurrencies(savedBaseCurrency));
         } else {
           const baseCurrencyByLocation = await getLocation();
           setBaseCurrency(baseCurrencyByLocation);
-          await dispatch(await getCurrencies(baseCurrencyByLocation));
+          dispatch(fetchCurrencies(baseCurrencyByLocation));
         }
       }
     },
