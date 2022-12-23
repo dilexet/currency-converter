@@ -3,18 +3,19 @@ import {
   CONVERSATION_RATES_REQUEST,
   SUPPORTED_CODES_REQUEST,
 } from "../constants/shared/currencies-api.constants";
-import loading from "../components/loading/loading";
 import currencySortComparator from "../utils/currency-sort-comporator";
 import { FAVORITE_CURRENCY_KEY } from "../constants/shared/storage-currency.constants";
 import {
+  loading,
   add_currency_to_favorite,
   get_currencies_error,
   get_currencies_success,
   remove_currency_from_favorite,
 } from "../redux/reducers/currency-list-reducer";
+import { AppDispatch } from "../redux/store";
 
-export const getCurrencies = (base_code) => {
-  return async (dispatch) => {
+export const getCurrencies = (base_code: string) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(loading());
     axios
       .all([
@@ -23,11 +24,11 @@ export const getCurrencies = (base_code) => {
       ])
       .then(
         axios.spread((get_codes_result, get_rates_result) => {
-          const favorite_currencies = JSON.parse(
-            localStorage.getItem(FAVORITE_CURRENCY_KEY),
-          );
+          const storageFavoriteCurrency = localStorage.getItem(FAVORITE_CURRENCY_KEY) ?? null;
+          const favorite_currencies = storageFavoriteCurrency ?
+            JSON.parse(storageFavoriteCurrency) : [];
           const currencies_array = get_codes_result?.data?.supported_codes
-            ?.map(([key, value]) => ({
+            ?.map(([key, value]: string) => ({
               code: key,
               name: value,
               rate: get_rates_result?.data?.conversion_rates[key],
@@ -46,11 +47,13 @@ export const getCurrencies = (base_code) => {
   };
 };
 
-export const addToFavorite = (favoriteCurrencyCode) => {
-  return async (dispatch) => {
-    let favorite_currencies = JSON.parse(
-      localStorage.getItem(FAVORITE_CURRENCY_KEY),
-    );
+export const addToFavorite = (favoriteCurrencyCode: string) => {
+  return async (dispatch: AppDispatch) => {
+    const storageFavoriteCurrency = localStorage.getItem(FAVORITE_CURRENCY_KEY) ?? null;
+
+    let favorite_currencies = storageFavoriteCurrency ?
+      JSON.parse(storageFavoriteCurrency) :
+      [];
     if (favorite_currencies) {
       favorite_currencies = [...favorite_currencies, favoriteCurrencyCode];
     } else {
@@ -68,14 +71,16 @@ export const addToFavorite = (favoriteCurrencyCode) => {
   };
 };
 
-export const removeFromFavorite = (favoriteCurrencyCode) => {
-  return async (dispatch) => {
-    let favorite_currencies = JSON.parse(
-      localStorage.getItem(FAVORITE_CURRENCY_KEY),
-    );
+export const removeFromFavorite = (favoriteCurrencyCode: string) => {
+  return async (dispatch: AppDispatch) => {
+    const storageFavoriteCurrency = localStorage.getItem(FAVORITE_CURRENCY_KEY) ?? null;
+
+    let favorite_currencies = storageFavoriteCurrency ?
+      JSON.parse(storageFavoriteCurrency) :
+      [];
     if (favorite_currencies) {
       favorite_currencies = favorite_currencies.filter(
-        (value) => value !== favoriteCurrencyCode,
+        (value: string) => value !== favoriteCurrencyCode,
       );
     } else {
       favorite_currencies = [];

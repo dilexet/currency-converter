@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ICurrencyConverterState from "../../types/currency-converter/currency-converter-state";
 import { HYDRATE } from "next-redux-wrapper";
+import ICurrencyConverterState from "../../types/currency-converter/currency-converter-state";
 
 const initialState: ICurrencyConverterState = {
   loadingCurrencies: true,

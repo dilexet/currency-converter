@@ -5,7 +5,7 @@ import {
   loadingConversation,
 } from "../redux/reducers/currency-converter-reducer";
 import { PAIR_CONVERSATION_REQUEST, SUPPORTED_CODES_REQUEST } from "../constants/shared/currencies-api.constants";
-import { Dispatch } from "redux";
+import { AppDispatch } from "../redux/store";
 
 export const getCurrencyAsync = async () => {
   try {
@@ -29,7 +29,7 @@ export const getCurrencyAsync = async () => {
 
 export const currencyConversation = (
   currencyFrom: string, currencyTo: string, amount: number) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(loadingConversation());
     axios
       .get(
