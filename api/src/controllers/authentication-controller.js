@@ -79,7 +79,7 @@ class AuthenticationController {
     try {
       const user = await User.findOne({ where: { id: req.userId } });
       if (!user) {
-        return next(ApiError.forbiddenError({ message: "User is not found" }));
+        return next(ApiError.unauthorized({ message: "User is not found" }));
       }
 
       const { passwordHash, ...userData } = user.dataValues;
