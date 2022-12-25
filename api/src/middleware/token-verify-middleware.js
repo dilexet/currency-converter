@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
-import { TOKEN_SECRET } from "../constants/token.constants.js";
+import "dotenv/config";
 import ApiError from "../error/api-error.js";
 
 const tokenVerify = (req, res, next) => {
   const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
   if (token) {
     try {
-      const decoded = jwt.verify(token, TOKEN_SECRET);
+      const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
       req.userId = decoded.id;
       next();
     } catch (err) {

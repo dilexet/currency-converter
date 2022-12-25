@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 import { Role, User } from "../models/user.js";
-import tokenGeneration from "../utils/token-generation.js";
+import jwtGenerate from "../utils/jwt-generate.js";
 import ApiError from "../error/api-error.js";
 import { Roles } from "../constants/roles.constants.js";
 
@@ -25,7 +25,7 @@ class AuthenticationController {
       if (!isValidPassword) {
         return next(ApiError.badRequest({ message: "Login or Password is incorrect" }));
       }
-      const token = tokenGeneration(userExist, role);
+      const token = jwtGenerate(userExist, role);
       if (token === null) {
         return next(ApiError.internalServerError({ message: "Token generation error" }));
       }
@@ -65,7 +65,7 @@ class AuthenticationController {
         roleId: role.id,
       });
 
-      const token = tokenGeneration(user, role);
+      const token = jwtGenerate(user, role);
       if (token === null) {
         return next(ApiError.internalServerError({ message: "Token generation error" }));
       }

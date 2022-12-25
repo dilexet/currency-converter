@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import { TOKEN_SECRET } from "../constants/token.constants.js";
+import "dotenv/config";
 
-const tokenGeneration = (user, role) => {
+const jwtGenerate = (user, role) => {
   if (user && user.id && role && role.name && role.id) {
     const token = jwt.sign(
       {
@@ -9,7 +9,7 @@ const tokenGeneration = (user, role) => {
         roleId: role.id,
         roleName: role.name,
       },
-      TOKEN_SECRET,
+      process.env.TOKEN_SECRET,
       {
         expiresIn: "30d",
       },
@@ -19,4 +19,4 @@ const tokenGeneration = (user, role) => {
   return null;
 };
 
-export default tokenGeneration;
+export default jwtGenerate;

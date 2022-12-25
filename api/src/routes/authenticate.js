@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authenticationController from "../controllers/authentication-controller.js";
 import { loginValidation, registerValidation } from "../validations/authenticate-validation.js";
-import tokenVerify from "../utils/token-verify.js";
+import tokenVerify from "../middleware/token-verify-middleware.js";
 
 const router = new Router();
 
