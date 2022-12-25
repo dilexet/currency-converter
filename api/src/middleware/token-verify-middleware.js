@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import ApiError from "../error/api-error.js";
 
-const tokenVerify = (req, res, next) => {
+const tokenVerifyMiddleware = (req, res, next) => {
   const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
   if (token) {
     try {
@@ -17,4 +17,4 @@ const tokenVerify = (req, res, next) => {
   }
 };
 
-export default tokenVerify;
+export default tokenVerifyMiddleware;
