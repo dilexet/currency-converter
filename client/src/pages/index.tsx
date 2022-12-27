@@ -13,7 +13,7 @@ import {
 import {
   currencyConversation,
   getCurrencyAsync,
-} from "../services/currency-conversation-actions";
+} from "../services/currency-converter-actions";
 import { formatCurrency } from "../utils/format-currency";
 import CurrencyConverter from "../components/currency-converter/currency-converter";
 import Loading from "../components/loading/loading";
