@@ -6,9 +6,11 @@ import { fetchCurrencies } from "../services/currency-list-actions";
 import { getLocation } from "../services/get-currency-by-location";
 import CurrencyList from "../components/currency-list/currency-list";
 import Loading from "../components/loading/loading";
+import { selectAll } from "../redux/reducers/currency-list-reducer";
 
 const Currencies = () => {
   const dispatch = useAppDispatch();
+  const currencies = useAppSelector(selectAll);
   const currencies_state = useAppSelector((x) => x.currency);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [baseCurrency, setBaseCurrency] = useState<string>("");
@@ -52,8 +54,8 @@ const Currencies = () => {
       </Head>
       {!isLoading ?
         <CurrencyList
-          currencies={currencies_state.currencies}
-          isLoadingState={currencies_state?.loading}
+          currencies={currencies}
+          isLoadingState={currencies_state?.loadingStatus === "loading"}
           baseCurrency={baseCurrency}
           changeBaseCurrency={changeBaseCurrency}
         /> :

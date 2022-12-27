@@ -5,9 +5,9 @@ import { ICurrencySelect } from "../../types/currency-converter/currency-convert
 import CurrencySelectTo from "../../components/currency-converter/currency-select-to";
 
 const CurrencySelectToContainer = ({
-  currencySelect,
-  changeAndSaveBaseCurrency,
-}: ICurrencySelectContainersProps) => {
+                                     currencySelect,
+                                     changeAndSaveBaseCurrency,
+                                   }: ICurrencySelectContainersProps) => {
   const converter_state = useAppSelector((x) => x.converter);
 
   const changeCurrencySelectTo = (currencySelectTo: string): void => {

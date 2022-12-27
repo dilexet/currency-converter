@@ -1,57 +1,40 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICurrencyListState } from "../../types/currency-list/currency-list-state";
+import { createEntityAdapter, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import currencySortComparator from "../../utils/currency-sort-comporator";
 import { fetchCurrencies } from "../../services/currency-list-actions";
 import { ICurrenciesObject } from "../../types/currency-list/currency-list-component-props";
+import { RootState, store } from "../store";
 
-const initialState: ICurrencyListState = {
-  loading: true,
-  success: true,
-  currencies: [],
-  error: "",
-};
+export const currenciesAdapter = createEntityAdapter<ICurrenciesObject>({
+  selectId: (currency) => currency.code,
+  sortComparer: currencySortComparator,
+});
+
+const initialState = currenciesAdapter.getInitialState({ loadingStatus: "loading", error: "" });
 
 const currencyListSlice = createSlice({
   name: "currency-list",
-  initialState,
+  initialState: initialState,
   reducers: {
-    add_currency_to_favorite(state, action) {
-      state.currencies = state.currencies
-        .map((currency) =>
-          currency?.code !== action.payload?.favoriteCurrencyCode
-            ? currency
-            : { ...currency, isFavorite: true },
-        )
-        .sort(currencySortComparator);
-    },
-    remove_currency_from_favorite(state, action) {
-      state.currencies = state.currencies
-        .map((currency) =>
-          currency?.code !== action.payload?.favoriteCurrencyCode
-            ? currency
-            : { ...currency, isFavorite: false },
-        )
-        .sort(currencySortComparator);
-    },
+    add_currency_to_favorite: currenciesAdapter.updateOne,
+    remove_currency_from_favorite: currenciesAdapter.updateOne,
   },
   extraReducers: builder => {
     builder
       .addCase(fetchCurrencies.pending.type,
         (state) => {
-          state.loading = true;
-          state.success = false;
+          state.loadingStatus = "loading";
+          state.error = "";
         })
       .addCase(fetchCurrencies.fulfilled.type,
         (state, action: PayloadAction<ICurrenciesObject[]>) => {
-          state.loading = false;
-          state.success = true;
-          state.currencies = action.payload;
+          state.loadingStatus = "idle";
+          state.error = "";
+          currenciesAdapter.setAll(state, action.payload);
         })
       .addCase(fetchCurrencies.rejected.type, (state, action: PayloadAction<string>) => {
-        state.loading = false;
-        state.success = false;
-        state.currencies = [];
+        state.loadingStatus = "failed";
         state.error = action.payload;
+        currenciesAdapter.setAll(state, []);
       });
   },
 });
@@ -61,3 +44,14 @@ export const {
   add_currency_to_favorite,
   remove_currency_from_favorite,
 } = currencyListSlice.actions;
+
+const currencySelectors = currenciesAdapter.getSelectors<RootState>(
+  state => state.currency);
+
+export const {
+  selectAll,
+  selectEntities,
+  selectTotal,
+  selectIds,
+  selectById,
+} = currencySelectors;

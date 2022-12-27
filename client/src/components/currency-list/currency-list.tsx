@@ -17,13 +17,13 @@ import CurrencyListTableHead from "./currency-list-table-head";
 import { ICurrencyListComponentProps } from "../../types/currency-list/currency-list-component-props";
 
 const CurrencyList = ({
-  currencies,
-  isLoadingState,
-  baseCurrency,
-  changeBaseCurrency,
-}: ICurrencyListComponentProps) => {
+                        currencies,
+                        isLoadingState,
+                        baseCurrency,
+                        changeBaseCurrency,
+                      }: ICurrencyListComponentProps) => {
   return (
-    <Container component='main' sx={{ mt: 2, mb: 2 }} maxWidth='lg'>
+    <Container component="main" sx={{ mt: 2, mb: 2 }} maxWidth="lg">
       <Grid item>
         <Box
           style={{
@@ -35,16 +35,16 @@ const CurrencyList = ({
           }}
         >
           {isLoadingState ? (
-            <Skeleton variant='rounded' width={"60%"} height={56} />
+            <Skeleton variant="rounded" width={"60%"} height={56} />
           ) : (
             <FormControl sx={{ width: "60%" }}>
-              <InputLabel id='base-currency-select-label'>
+              <InputLabel id="base-currency-select-label">
                 Base currency
               </InputLabel>
               <Select
-                labelId='base-currency-select-label'
+                labelId="base-currency-select-label"
                 value={baseCurrency}
-                label='Base currency'
+                label="Base currency"
                 onChange={async (event) => {
                   await changeBaseCurrency(event.target.value);
                 }}
@@ -61,9 +61,9 @@ const CurrencyList = ({
         <Box>
           <TableContainer component={Paper}>
             {isLoadingState ? (
-              <Skeleton variant='rounded' width={"100%"} height={"100vh"} />
+              <Skeleton variant="rounded" width={"100%"} height={"100vh"} />
             ) : (
-              <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <CurrencyListTableHead />
                 <CurrencyListTableBodyContainer
                   currencies={currencies}

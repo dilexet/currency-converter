@@ -8,9 +8,9 @@ import {
 import CurrencyListTableBody from "../../components/currency-list/currency-list-table-body";
 
 const CurrencyListTableBodyContainer = ({
-  currencies,
-  changeBaseCurrency,
-}: ICurrencyListTableBodyContainerProps) => {
+                                          currencies,
+                                          changeBaseCurrency,
+                                        }: ICurrencyListTableBodyContainerProps) => {
   const dispatch = useAppDispatch();
 
   const handleAddToFavorite = async (

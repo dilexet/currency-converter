@@ -11,33 +11,28 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchCurrencies = createAsyncThunk(
   "currency/fetchAll",
-  async (base_code: string, thunkAPI) => {
-    try {
-      const response = await axios
-        .all([
-          axios.get(SUPPORTED_CODES_REQUEST),
-          axios.get(CONVERSATION_RATES_REQUEST + base_code),
-        ]).then(
-          axios.spread((get_codes_result, get_rates_result) => {
-            return { codes: get_codes_result, rates: get_rates_result };
-          }),
-        );
+  async (base_code: string) => {
+    const response = await axios
+      .all([
+        axios.get(SUPPORTED_CODES_REQUEST),
+        axios.get(CONVERSATION_RATES_REQUEST + base_code),
+      ]).then(
+        axios.spread((get_codes_result, get_rates_result) => {
+          return { codes: get_codes_result, rates: get_rates_result };
+        }),
+      );
 
-      const storageFavoriteCurrency = localStorage.getItem(FAVORITE_CURRENCY_KEY) ?? null;
-      const favorite_currencies = storageFavoriteCurrency ?
-        JSON.parse(storageFavoriteCurrency) : [];
-      return response?.codes?.data?.supported_codes
-        ?.map(([key, value]: string) => ({
-          code: key,
-          name: value,
-          rate: response?.rates?.data?.conversion_rates[key],
-          isFavorite: favorite_currencies?.includes(key),
-        }))
-        .sort(currencySortComparator);
-
-    } catch (err) {
-      return thunkAPI.rejectWithValue("fetch currencies error");
-    }
+    const storageFavoriteCurrency = localStorage.getItem(FAVORITE_CURRENCY_KEY) ?? null;
+    const favorite_currencies = storageFavoriteCurrency ?
+      JSON.parse(storageFavoriteCurrency) : [];
+    return response?.codes?.data?.supported_codes
+      ?.map(([key, value]: string) => ({
+        code: key,
+        name: value,
+        rate: response?.rates?.data?.conversion_rates[key],
+        isFavorite: favorite_currencies?.includes(key),
+      }));
+    // .sort(currencySortComparator);
   },
 );
 
@@ -59,7 +54,8 @@ export const addToFavorite = (favoriteCurrencyCode: string) => {
     );
     dispatch(
       add_currency_to_favorite({
-        favoriteCurrencyCode,
+        id: favoriteCurrencyCode,
+        changes: { isFavorite: true },
       }),
     );
   };
@@ -85,7 +81,8 @@ export const removeFromFavorite = (favoriteCurrencyCode: string) => {
     );
     dispatch(
       remove_currency_from_favorite({
-        favoriteCurrencyCode,
+        id: favoriteCurrencyCode,
+        changes: { isFavorite: false },
       }),
     );
   };

@@ -4,17 +4,17 @@ const CurrencyListTableHead = () => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell align='left'>
-          <Typography variant='h6'>Code</Typography>
+        <TableCell align="left">
+          <Typography variant="h6">Code</Typography>
         </TableCell>
-        <TableCell align='center'>
-          <Typography variant='h6'>Name</Typography>
+        <TableCell align="center">
+          <Typography variant="h6">Name</Typography>
         </TableCell>
-        <TableCell align='left'>
-          <Typography variant='h6'>Rate</Typography>
+        <TableCell align="left">
+          <Typography variant="h6">Rate</Typography>
         </TableCell>
-        <TableCell align='center'>
-          <Typography variant='h6'>Add to favorite</Typography>
+        <TableCell align="center">
+          <Typography variant="h6">Add to favorite</Typography>
         </TableCell>
       </TableRow>
     </TableHead>
