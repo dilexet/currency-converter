@@ -1,5 +1,3 @@
-import { Dictionary } from "@reduxjs/toolkit";
-
 export interface ICurrenciesObject {
   code: string;
   name: string;
@@ -8,7 +6,7 @@ export interface ICurrenciesObject {
 }
 
 export interface ICurrencyListComponentProps {
-  currencies: Dictionary<ICurrenciesObject>;
+  currencies: ICurrenciesObject[];
   baseCurrency: string;
   changeBaseCurrency: (newBaseCurrency: string) => Promise<void>;
   isLoadingState: boolean;

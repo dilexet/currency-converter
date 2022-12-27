@@ -1,9 +1,8 @@
 import React from "react";
 import { ICurrenciesObject } from "./currency-list-component-props";
-import { Dictionary } from "@reduxjs/toolkit";
 
 export interface ICurrencyListTableBodyComponentProps {
-  currencies: Dictionary<ICurrenciesObject>;
+  currencies: ICurrenciesObject[];
   changeBaseCurrency: (newBaseCurrency: string) => Promise<void>;
   handleRemoveFromFavorite: (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -16,6 +15,6 @@ export interface ICurrencyListTableBodyComponentProps {
 }
 
 export interface ICurrencyListTableBodyContainerProps {
-  currencies: Dictionary<ICurrenciesObject>;
+  currencies: ICurrenciesObject[];
   changeBaseCurrency: (newBaseCurrency: string) => Promise<void>;
 }
