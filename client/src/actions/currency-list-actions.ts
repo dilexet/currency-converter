@@ -1,6 +1,5 @@
 import axios from "axios";
 import { CONVERSATION_RATES_REQUEST, SUPPORTED_CODES_REQUEST } from "../constants/shared/currencies-api.constants";
-import currencySortComparator from "../utils/currency-sort-comporator";
 import { FAVORITE_CURRENCY_KEY } from "../constants/shared/storage-currency.constants";
 import {
   add_currency_to_favorite,
@@ -32,7 +31,6 @@ export const fetchCurrencies = createAsyncThunk(
         rate: response?.rates?.data?.conversion_rates[key],
         isFavorite: favorite_currencies?.includes(key),
       }));
-    // .sort(currencySortComparator);
   },
 );
 

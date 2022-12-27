@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import currencySortComparator from "../../utils/currency-sort-comporator";
-import { fetchCurrencies } from "../../services/currency-list-actions";
+import { fetchCurrencies } from "../../actions/currency-list-actions";
 import { ICurrenciesObject } from "../../types/currency-list/currency-list-component-props";
-import { RootState, store } from "../store";
+import { RootState } from "../store";
 
 export const currenciesAdapter = createEntityAdapter<ICurrenciesObject>({
   selectId: (currency) => currency.code,

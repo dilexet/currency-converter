@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../hooks/hooks";
 import {
   addToFavorite,
   removeFromFavorite,
-} from "../../services/currency-list-actions";
+} from "../../actions/currency-list-actions";
 import CurrencyListTableBody from "../../components/currency-list/currency-list-table-body";
 
 const CurrencyListTableBodyContainer = ({
