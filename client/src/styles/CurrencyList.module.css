@@ -1,8 +1,8 @@
-table .table-currency-row:hover {
-  cursor: pointer;
-  background: #d8e8fa;
+.table_currency_row:hover {
+    cursor: pointer;
+    background: #d8e8fa;
 }
 
-table .table-currency-row:active {
-  background: #cfdff0;
+.table_currency_row:active {
+    background: #cfdff0;
 }
