@@ -6,44 +6,44 @@ import { ICurrencyListTableBodyComponentProps } from "../../types/currency-list/
 import styles from "../../styles/CurrencyList.module.css";
 
 const CurrencyListTableBody = ({
-  currencies,
-  changeBaseCurrency,
-  handleRemoveFromFavorite,
-  handleAddToFavorite,
-}: ICurrencyListTableBodyComponentProps) => {
+                                 currencies,
+                                 changeBaseCurrency,
+                                 handleRemoveFromFavorite,
+                                 handleAddToFavorite,
+                               }: ICurrencyListTableBodyComponentProps) => {
   return (
     <TableBody>
-      {currencies?.map((currency, index) => (
+      {Object.entries(currencies).map(([key, value]) => (
         <TableRow
-          key={index}
+          key={key}
           className={styles.table_currency_row}
           onClick={async () => {
-            await changeBaseCurrency(currency?.code);
+            await changeBaseCurrency(value?.code ?? "");
           }}
         >
-          <TableCell align='left'>
-            <Typography variant='body1'>{currency?.code}</Typography>
+          <TableCell align="left">
+            <Typography variant="body1">{value?.code}</Typography>
           </TableCell>
-          <TableCell align='center'>
-            <Typography variant='body1'>{currency?.name}</Typography>
+          <TableCell align="center">
+            <Typography variant="body1">{value?.name}</Typography>
           </TableCell>
-          <TableCell align='left'>
-            <Typography variant='body1'>{currency?.rate}</Typography>
+          <TableCell align="left">
+            <Typography variant="body1">{value?.rate}</Typography>
           </TableCell>
-          <TableCell align='center'>
-            {currency.isFavorite ? (
+          <TableCell align="center">
+            {value?.isFavorite ? (
               <FavoriteIcon
-                color='error'
-                cursor='pointer'
+                color="error"
+                cursor="pointer"
                 onClick={async (e) => {
-                  await handleRemoveFromFavorite(e, currency?.code);
+                  await handleRemoveFromFavorite(e, value?.code);
                 }}
               />
             ) : (
               <FavoriteBorderIcon
-                cursor='pointer'
+                cursor="pointer"
                 onClick={async (e) => {
-                  await handleAddToFavorite(e, currency?.code);
+                  await handleAddToFavorite(e, value?.code ?? "");
                 }}
               />
             )}

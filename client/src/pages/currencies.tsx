@@ -52,8 +52,8 @@ const Currencies = () => {
       </Head>
       {!isLoading ?
         <CurrencyList
-          currencies={currencies_state.currencies}
-          isLoadingState={currencies_state?.loading}
+          currencies={currencies_state?.entities}
+          isLoadingState={currencies_state?.loadingStatus === "loading"}
           baseCurrency={baseCurrency}
           changeBaseCurrency={changeBaseCurrency}
         /> :
