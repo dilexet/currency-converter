@@ -1,6 +1,6 @@
 import { BASE_CURRENCIES, BASE_CURRENCY_CONVERT_KEY } from "../constants/shared/storage-currency.constants";
 import { ICurrencySelect } from "../types/currency-converter/currency-converter-select";
-import { getLocation } from "../actions/get-currency-by-location";
+import { getLocationAsync } from "../actions/get-currency-by-location";
 
 const getBaseCurrency = async () => {
   const storageBaseCurrencyConvert = localStorage.getItem(
@@ -37,7 +37,7 @@ const getBaseCurrency = async () => {
       };
     }
   } else {
-    const baseCurrencyByLocation = await getLocation();
+    const baseCurrencyByLocation = await getLocationAsync();
     newBaseCurrency = {
       currency_from: baseCurrencyByLocation,
       currency_to:

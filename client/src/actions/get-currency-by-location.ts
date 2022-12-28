@@ -8,7 +8,7 @@ import {
   BASE_CURRENCY_KEY,
 } from "../constants/shared/storage-currency.constants";
 
-export const getLocation = async (): Promise<string> => {
+export const getLocationAsync = async (): Promise<string> => {
   const response = await axios.get(CURRENCY_BY_LOCATION_REQUEST, {
     params: { "api-key": API_KEY },
   });

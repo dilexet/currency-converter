@@ -9,7 +9,6 @@ import styles from "../../styles/CurrencyConverter.module.css";
 import CurrencyConverterResultBox from "./currency-converter-result-box";
 
 const CurrencyConverter = ({
-                             converter_state,
                              currencySelect,
                              amount,
                              setAmount,
@@ -62,7 +61,6 @@ const CurrencyConverter = ({
       <CurrencyConverterResultBox
         amount={amount}
         currencySelect={currencySelect}
-        converter_state={converter_state}
       />
     </Container>
   );

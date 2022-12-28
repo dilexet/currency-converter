@@ -1,4 +1,4 @@
-import { ICurrenciesObject } from "../types/currency-list/currency-list-component-props";
+import { ICurrenciesObject } from "../types/currency-converter/currency-object";
 
 const currencySortComparator = (
   a: ICurrenciesObject,

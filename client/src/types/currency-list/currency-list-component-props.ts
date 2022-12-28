@@ -1,9 +1,4 @@
-export interface ICurrenciesObject {
-  code: string;
-  name: string;
-  rate: number;
-  isFavorite: boolean;
-}
+import { ICurrenciesObject } from "../currency-converter/currency-object";
 
 export interface ICurrencyListComponentProps {
   currencies: ICurrenciesObject[];

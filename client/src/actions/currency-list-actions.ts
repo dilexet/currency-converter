@@ -8,7 +8,7 @@ import {
 import { AppDispatch } from "../redux/store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchCurrencies = createAsyncThunk(
+export const fetchCurrenciesAsync = createAsyncThunk(
   "currency/fetchAll",
   async (base_code: string) => {
     const response = await axios
