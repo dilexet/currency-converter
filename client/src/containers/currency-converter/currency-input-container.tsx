@@ -34,7 +34,7 @@ const CurrencyInputContainer = ({
       handleAmountChange={handleAmountChange}
       handleInputBlur={handleInputBlur}
       currencySelect={currencySelect}
-      loadingConversation={converter_state?.loadingConversation}
+      loadingConversation={converter_state?.loadingConversationStatus === "loading"}
     />
   );
 };

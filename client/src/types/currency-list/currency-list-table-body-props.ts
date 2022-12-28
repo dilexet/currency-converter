@@ -1,5 +1,5 @@
 import React from "react";
-import { ICurrenciesObject } from "./currency-list-component-props";
+import { ICurrenciesObject } from "../currency-converter/currency-object";
 
 export interface ICurrencyListTableBodyComponentProps {
   currencies: ICurrenciesObject[];

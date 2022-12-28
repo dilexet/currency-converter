@@ -9,24 +9,23 @@ import styles from "../../styles/CurrencyConverter.module.css";
 import CurrencyConverterResultBox from "./currency-converter-result-box";
 
 const CurrencyConverter = ({
-  converter_state,
-  currencySelect,
-  amount,
-  setAmount,
-  setShouldSendRequest,
-  handleSwapCurrencies,
-  changeAndSaveBaseCurrency,
-}: ICurrencyConverterComponentProps) => {
+                             currencySelect,
+                             amount,
+                             setAmount,
+                             setShouldSendRequest,
+                             handleSwapCurrencies,
+                             changeAndSaveBaseCurrency,
+                           }: ICurrencyConverterComponentProps) => {
   return (
-    <Container component='main' sx={{ mt: 2, mb: 2 }} maxWidth='lg'>
+    <Container component="main" sx={{ mt: 2, mb: 2 }} maxWidth="lg">
       <Grid
         container
         className={styles.main_box}
         columns={{ xs: 1, sm: 1, md: 4 }}
         spacing={4}
-        direction='row'
-        justifyContent='left'
-        alignItems='left'
+        direction="row"
+        justifyContent="left"
+        alignItems="left"
       >
         <Grid item>
           <CurrencyInputContainer
@@ -48,7 +47,7 @@ const CurrencyConverter = ({
               className={styles.swap_currencies_button}
               onClick={handleSwapCurrencies}
             >
-              <SwapHorizIcon fontSize='large' color='primary' />
+              <SwapHorizIcon fontSize="large" color="primary" />
             </IconButton>
           </Box>
         </Grid>
@@ -62,7 +61,6 @@ const CurrencyConverter = ({
       <CurrencyConverterResultBox
         amount={amount}
         currencySelect={currencySelect}
-        converter_state={converter_state}
       />
     </Container>
   );

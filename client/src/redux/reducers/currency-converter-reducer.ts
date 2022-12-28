@@ -1,72 +1,90 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createEntityAdapter, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import ICurrencyConverterState from "../../types/currency-converter/currency-converter-state";
+import { currencyConversationAsync, getCurrenciesAsync } from "../../actions/currency-converter-actions";
+import { ICurrencyConversationResult } from "../../types/currency-converter/currency-conversation-result";
+import { RootState } from "../store";
+import { ICurrencies } from "../../types/currency-converter/currency-object";
 
-const initialState: ICurrencyConverterState = {
-  loadingCurrencies: true,
-  loadingConversation: false,
-  success: true,
+const initialState = {
+  loadingCurrenciesStatus: "loading",
+  loadingConversationStatus: "loading",
+  error: "",
   conversationResult: {
     wholePart: 0,
     remainder: "",
   },
   conversationRates: 0,
   amount: 0,
-  currencies: [],
 };
+
+export const currencyConverterAdapter = createEntityAdapter<ICurrencies>({
+  selectId: (currency) => currency.code,
+});
+
+const initialAdapterState = currencyConverterAdapter.getInitialState(initialState);
 
 const currencyConverterSlice = createSlice({
   name: "currency-converter",
-  initialState,
-  reducers: {
-    get_currencies_success(state, action) {
-      state.loadingCurrencies = false;
-      state.success = true;
-      state.currencies = action.payload.currencies;
-    },
-    get_currencies_error(state) {
-      state.loadingCurrencies = false;
-      state.success = false;
-      state.currencies = [];
-    },
-    loadingConversation(state) {
-      state.loadingConversation = true;
-      state.success = false;
-    },
-    get_conversation_result_success(state, action) {
-      state.loadingConversation = false;
-      state.success = true;
-      state.conversationResult = action.payload.conversationResult;
-      state.conversationRates = action.payload.conversationRates;
-      state.amount = action.payload.amount;
-    },
-    get_conversation_result_error(state) {
-      state.loadingConversation = false;
-      state.success = false;
-      state.conversationResult = { wholePart: 0, remainder: "" };
-      state.conversationRates = 0;
-      state.amount = 0;
-    },
-  },
+  initialState: initialAdapterState,
+  reducers: {},
   extraReducers: builder => {
-    builder.addCase(HYDRATE, (state, action: any) => {
-      if (!action.payload.converter.currencies) {
-        state.loadingCurrencies = false;
-        state.success = false;
-        state.currencies = [];
-      }
-      state.loadingCurrencies = false;
-      state.success = true;
-      state.currencies = action.payload.converter.currencies;
-    });
+    builder
+      .addCase(getCurrenciesAsync.pending.type,
+        (state) => {
+          state.loadingCurrenciesStatus = "loading";
+          state.error = "";
+        })
+      .addCase(getCurrenciesAsync.fulfilled.type,
+        (state, action: PayloadAction<ICurrencies[]>) => {
+          state.loadingCurrenciesStatus = "idle";
+          state.error = "";
+          currencyConverterAdapter.setAll(state, action.payload);
+        })
+      .addCase(getCurrenciesAsync.rejected.type,
+        (state, action: PayloadAction<string>) => {
+          state.loadingCurrenciesStatus = "failed";
+          state.error = action.payload;
+          currencyConverterAdapter.setAll(state, []);
+        })
+      .addCase(currencyConversationAsync.pending.type,
+        (state) => {
+          state.loadingConversationStatus = "loading";
+          state.error = "";
+        })
+      .addCase(currencyConversationAsync.fulfilled.type,
+        (state, action: PayloadAction<ICurrencyConversationResult>) => {
+          state.loadingConversationStatus = "idle";
+          state.error = "";
+          state.conversationResult = {
+            wholePart: action.payload.wholePart,
+            remainder: action.payload.remainder,
+          };
+          state.conversationRates = action.payload.conversationRates;
+          state.amount = action.payload.amount;
+        })
+      .addCase(currencyConversationAsync.rejected.type,
+        (state, action: PayloadAction<string>) => {
+          state.loadingConversationStatus = "failed";
+          state.error = action.payload;
+          state.conversationResult = { wholePart: 0, remainder: "" };
+          state.conversationRates = 0;
+          state.amount = 0;
+        })
+      .addCase(HYDRATE, (state, action: AnyAction) => {
+        state.loadingCurrenciesStatus = "idle";
+        if (!action.payload.converter.entities) {
+          currencyConverterAdapter.setAll(state, []);
+        }
+        currencyConverterAdapter.setAll(state, action.payload.converter.entities);
+      });
   },
 });
 
 export default currencyConverterSlice.reducer;
+
+const currencyConverterSelectors = currencyConverterAdapter.getSelectors<RootState>(
+  state => state.converter);
+
 export const {
-  loadingConversation,
-  get_conversation_result_success,
-  get_conversation_result_error,
-  get_currencies_success,
-  get_currencies_error,
-} = currencyConverterSlice.actions;
+  selectAll
+} = currencyConverterSelectors;

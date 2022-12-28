@@ -1,10 +1,10 @@
 import { ICurrencySelect } from "./currency-converter-select";
-import { ICurrenciesObject } from "./currency-converter-component-props";
+import { ICurrencies } from "./currency-object";
 
 export interface ICurrencySelectComponentsProps {
   currencySelect: ICurrencySelect;
   changeCurrencySelect: (currencySelect: string) => void;
-  currencies: ICurrenciesObject[];
+  currencies: ICurrencies[];
 }
 
 export interface ICurrencySelectContainersProps {

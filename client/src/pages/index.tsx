@@ -11,15 +11,14 @@ import {
   BASE_CURRENCY_CONVERT_KEY,
 } from "../constants/shared/storage-currency.constants";
 import {
-  currencyConversation,
-  getCurrencyAsync,
-} from "../services/currency-conversation-actions";
+  currencyConversationAsync,
+  getCurrenciesAsync,
+} from "../actions/currency-converter-actions";
 import { formatCurrency } from "../utils/format-currency";
 import CurrencyConverter from "../components/currency-converter/currency-converter";
 import Loading from "../components/loading/loading";
 import getBaseCurrency from "../utils/get-base-currency";
 import { wrapper } from "../redux/store";
-import { get_currencies_error, get_currencies_success } from "../redux/reducers/currency-converter-reducer";
 
 const Index = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +52,7 @@ const Index = () => {
   const conversationRequest = useCallback(
     async (currencyFrom: string, currencyTo: string, amount: number) => {
       await dispatch(
-        await currencyConversation(currencyFrom, currencyTo, amount),
+        await currencyConversationAsync({ currencyFrom, currencyTo, amount }),
       );
     },
     [dispatch],
@@ -87,15 +86,13 @@ const Index = () => {
       setShouldSendRequest(false);
     }
   }, [amount, conversationRequest, currencySelect, shouldSendRequest]);
-
   return (
     <>
       <Head>
         <title>Currency converter</title>
       </Head>
-      {!isLoading && !converter_state?.loadingCurrencies ?
+      {!isLoading && converter_state?.loadingCurrenciesStatus !== "loading" ?
         <CurrencyConverter
-          converter_state={converter_state}
           currencySelect={currencySelect}
           amount={amount}
           setAmount={setAmount}
@@ -111,16 +108,7 @@ const Index = () => {
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps(store => async () => {
-    const currencies_array = await getCurrencyAsync();
-    if (currencies_array) {
-      store.dispatch(
-        get_currencies_success({
-          currencies: currencies_array,
-        }),
-      );
-    } else {
-      store.dispatch(get_currencies_error());
-    }
+    await store.dispatch(getCurrenciesAsync());
     return { props: {} };
   });
 
