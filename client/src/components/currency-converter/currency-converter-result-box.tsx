@@ -4,15 +4,17 @@ import {
   ICurrencyConverterResultComponentProps,
 } from "../../types/currency-converter/currency-converter-result-component-props";
 import styles from "../../styles/CurrencyConverterResultBox.module.css";
+import { useAppSelector } from "../../hooks/hooks";
 
 const CurrencyConverterResultBox = ({
-                                      converter_state,
                                       currencySelect,
                                       amount,
                                     }: ICurrencyConverterResultComponentProps) => {
+  const converter_state = useAppSelector((x) => x.converter);
+
   return (
     <Box className={styles.currency_converter_main_box}>
-      {converter_state?.loadingConversation ? (
+      {converter_state?.loadingConversationStatus === "loading" ? (
         <Box sx={{ display: "flex" }}>
           <Grid container rowSpacing={1}>
             <Grid item xs={12}>

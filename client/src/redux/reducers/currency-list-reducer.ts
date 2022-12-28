@@ -1,41 +1,46 @@
 import { createEntityAdapter, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import currencySortComparator from "../../utils/currency-sort-comporator";
-import { fetchCurrencies } from "../../actions/currency-list-actions";
-import { ICurrenciesObject } from "../../types/currency-list/currency-list-component-props";
+import { fetchCurrenciesAsync } from "../../actions/currency-list-actions";
+import { ICurrenciesObject } from "../../types/currency-converter/currency-object";
 import { RootState } from "../store";
 
+const initialState = {
+  loadingStatus: "loading",
+  error: "",
+};
 export const currenciesAdapter = createEntityAdapter<ICurrenciesObject>({
   selectId: (currency) => currency.code,
   sortComparer: currencySortComparator,
 });
 
-const initialState = currenciesAdapter.getInitialState({ loadingStatus: "loading", error: "" });
+const initialAdapterState = currenciesAdapter.getInitialState(initialState);
 
 const currencyListSlice = createSlice({
   name: "currency-list",
-  initialState: initialState,
+  initialState: initialAdapterState,
   reducers: {
     add_currency_to_favorite: currenciesAdapter.updateOne,
     remove_currency_from_favorite: currenciesAdapter.updateOne,
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchCurrencies.pending.type,
+      .addCase(fetchCurrenciesAsync.pending.type,
         (state) => {
           state.loadingStatus = "loading";
           state.error = "";
         })
-      .addCase(fetchCurrencies.fulfilled.type,
+      .addCase(fetchCurrenciesAsync.fulfilled.type,
         (state, action: PayloadAction<ICurrenciesObject[]>) => {
           state.loadingStatus = "idle";
           state.error = "";
           currenciesAdapter.setAll(state, action.payload);
         })
-      .addCase(fetchCurrencies.rejected.type, (state, action: PayloadAction<string>) => {
-        state.loadingStatus = "failed";
-        state.error = action.payload;
-        currenciesAdapter.setAll(state, []);
-      });
+      .addCase(fetchCurrenciesAsync.rejected.type,
+        (state, action: PayloadAction<string>) => {
+          state.loadingStatus = "failed";
+          state.error = action.payload;
+          currenciesAdapter.setAll(state, []);
+        });
   },
 });
 
@@ -50,8 +55,4 @@ const currencySelectors = currenciesAdapter.getSelectors<RootState>(
 
 export const {
   selectAll,
-  selectEntities,
-  selectTotal,
-  selectIds,
-  selectById,
 } = currencySelectors;

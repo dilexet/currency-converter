@@ -3,12 +3,14 @@ import { useAppSelector } from "../../hooks/hooks";
 import { ICurrencySelectContainersProps } from "../../types/currency-converter/currency-select-props";
 import { ICurrencySelect } from "../../types/currency-converter/currency-converter-select";
 import CurrencySelectTo from "../../components/currency-converter/currency-select-to";
+import { selectAll } from "../../redux/reducers/currency-converter-reducer";
 
 const CurrencySelectToContainer = ({
                                      currencySelect,
                                      changeAndSaveBaseCurrency,
                                    }: ICurrencySelectContainersProps) => {
-  const converter_state = useAppSelector((x) => x.converter);
+
+  const currencies = useAppSelector(selectAll);
 
   const changeCurrencySelectTo = (currencySelectTo: string): void => {
     let newBaseCurrency: ICurrencySelect;
@@ -29,7 +31,7 @@ const CurrencySelectToContainer = ({
   return (
     <CurrencySelectTo
       currencySelect={currencySelect}
-      currencies={converter_state?.currencies}
+      currencies={currencies}
       changeCurrencySelect={changeCurrencySelectTo}
     />
   );
