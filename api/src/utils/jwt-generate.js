@@ -3,18 +3,22 @@ import "dotenv/config";
 
 const jwtGenerate = (user, role) => {
   if (user && user.id && role && role.name && role.id) {
-    const token = jwt.sign(
-      {
-        id: user.id,
-        roleId: role.id,
-        roleName: role.name,
-      },
-      process.env.TOKEN_SECRET,
-      {
-        expiresIn: "30d",
-      },
+    const accessPayload = {
+      userId: user.id,
+      roleId: role.id,
+      roleName: role.name,
+    };
+    const accessTokenPrivateKet = process.env.ACCESS_TOKEN_SECRET;
+    const accessTokenOptions = {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
+      algorithm: process.env.ALGORITHM,
+    };
+    const jwtToken = jwt.sign(
+      accessPayload,
+      accessTokenPrivateKet,
+      accessTokenOptions,
     );
-    return token ?? null;
+    return jwtToken ?? null;
   }
   return null;
 };

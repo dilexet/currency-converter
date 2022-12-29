@@ -5,7 +5,7 @@ import jwtVerify from "../utils/jwt-verify.js";
 const tokenVerifyMiddleware = (req, res, next) => {
   const decoded = jwtVerify(req.headers.authorization);
   if (decoded) {
-    req.userId = decoded.id;
+    req.userId = decoded.userId;
     next();
   } else {
     return next(ApiError.unauthorized({ message: "You are unauthorized" }));

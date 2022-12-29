@@ -4,7 +4,7 @@ const jwtVerify = (requestToken) => {
   const token = (requestToken || "").replace(/Bearer\s?/, "");
   if (token) {
     try {
-      return jwt.verify(token, process.env.TOKEN_SECRET);
+      return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     } catch (err) {
       return null;
     }
